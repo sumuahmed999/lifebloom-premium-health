@@ -1,7 +1,9 @@
 import { Target, Heart, Users2, CheckCircle } from 'lucide-react';
+import { useStaggeredAnimation } from '@/hooks/useAnimations';
 import pharmacyInterior from '@/assets/pharmacy-interior.jpg';
 
 const AboutSection = () => {
+  useStaggeredAnimation(150);
   const achievements = [
     "15+ Years of Healthcare Excellence",
     "50,000+ Satisfied Patients",
@@ -16,9 +18,9 @@ const AboutSection = () => {
       <div className="container mx-auto px-4">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Left - Content */}
-          <div className="space-y-8">
+          <div className="space-y-8 stagger-animate animate-on-scroll">
             {/* Section Header */}
-            <div className="space-y-4">
+            <div className="space-y-4 stagger-animate animate-on-scroll stagger-1">
               <div className="inline-flex items-center space-x-2 bg-secondary/20 backdrop-blur-sm px-4 py-2 rounded-full border border-secondary/30">
                 <Heart className="w-5 h-5 text-secondary" />
                 <span className="text-sm font-medium text-secondary">About LifeBloom</span>
@@ -32,8 +34,8 @@ const AboutSection = () => {
             </div>
 
             {/* Mission & Vision Cards */}
-            <div className="grid sm:grid-cols-2 gap-6">
-              <div className="glass-card floating-card p-6">
+            <div className="grid sm:grid-cols-2 gap-6 stagger-animate animate-on-scroll stagger-2">
+              <div className="glass-card floating-card p-6 hover-lift">
                 <div className="flex items-center space-x-3 mb-4">
                   <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
                     <Target className="w-6 h-6 text-primary" />
@@ -45,7 +47,7 @@ const AboutSection = () => {
                 </p>
               </div>
 
-              <div className="glass-card floating-card p-6">
+              <div className="glass-card floating-card p-6 hover-lift">
                 <div className="flex items-center space-x-3 mb-4">
                   <div className="w-12 h-12 bg-secondary/10 rounded-xl flex items-center justify-center">
                     <Users2 className="w-6 h-6 text-secondary" />
@@ -59,7 +61,7 @@ const AboutSection = () => {
             </div>
 
             {/* Achievements List */}
-            <div className="space-y-4">
+            <div className="space-y-4 stagger-animate animate-on-scroll stagger-3">
               <h3 className="text-xl font-semibold text-primary">Why Choose LifeBloom?</h3>
               <div className="grid sm:grid-cols-2 gap-3">
                 {achievements.map((achievement, index) => (
@@ -73,9 +75,9 @@ const AboutSection = () => {
           </div>
 
           {/* Right - Image */}
-          <div className="relative">
-            <div className="relative overflow-hidden rounded-3xl">
-              <img 
+          <div className="relative stagger-animate animate-on-scroll stagger-4">
+            <div className="relative overflow-hidden rounded-3xl hover-lift">
+              <img
                 src={pharmacyInterior} 
                 alt="LifeBloom Pharmacy Interior" 
                 className="w-full h-[600px] object-cover"
@@ -84,21 +86,21 @@ const AboutSection = () => {
             </div>
 
             {/* Floating Stats Cards */}
-            <div className="absolute -top-6 -left-6 glass-card floating-card p-4">
+            <div className="absolute -top-6 -left-6 glass-card floating-card p-4 animate-bounce-in" style={{ animationDelay: '0.5s' }}>
               <div className="text-center">
                 <div className="text-3xl font-bold gradient-text">15+</div>
                 <div className="text-sm text-muted-foreground">Years</div>
               </div>
             </div>
 
-            <div className="absolute -bottom-6 -right-6 glass-card floating-card p-4">
+            <div className="absolute -bottom-6 -right-6 glass-card floating-card p-4 animate-bounce-in" style={{ animationDelay: '0.7s' }}>
               <div className="text-center">
                 <div className="text-3xl font-bold gradient-text">50K+</div>
                 <div className="text-sm text-muted-foreground">Patients</div>
               </div>
             </div>
 
-            <div className="absolute top-1/2 -right-8 glass-card floating-card p-4">
+            <div className="absolute top-1/2 -right-8 glass-card floating-card p-4 animate-bounce-in" style={{ animationDelay: '0.9s' }}>
               <div className="text-center">
                 <div className="text-2xl font-bold text-secondary">24/7</div>
                 <div className="text-xs text-muted-foreground">Support</div>

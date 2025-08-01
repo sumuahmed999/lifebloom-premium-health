@@ -1,7 +1,9 @@
 import { Pill, Stethoscope, Phone, Heart, Shield, Truck, UserCheck, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useStaggeredAnimation } from '@/hooks/useAnimations';
 
 const ServicesSection = () => {
+  useStaggeredAnimation(100);
   const services = [
     {
       icon: Pill,
@@ -58,7 +60,7 @@ const ServicesSection = () => {
     <section id="services" className="py-24 bg-background">
       <div className="container mx-auto px-4">
         {/* Section Header */}
-        <div className="text-center space-y-6 mb-16">
+        <div className="text-center space-y-6 mb-16 stagger-animate animate-on-scroll">
           <div className="inline-flex items-center space-x-2 bg-secondary/20 backdrop-blur-sm px-4 py-2 rounded-full border border-secondary/30">
             <Stethoscope className="w-5 h-5 text-secondary" />
             <span className="text-sm font-medium text-secondary">Our Services</span>
@@ -76,10 +78,10 @@ const ServicesSection = () => {
           {services.map((service, index) => {
             const Icon = service.icon;
             return (
-              <div key={index} className="group">
-                <div className="glass-card floating-card p-8 h-full">
+              <div key={index} className="group stagger-animate animate-on-scroll" style={{ animationDelay: `${index * 0.1}s` }}>
+                <div className="glass-card floating-card p-8 h-full hover-lift">
                   {/* Icon */}
-                  <div className={`w-16 h-16 bg-gradient-to-r ${service.color} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500 glow-effect`}>
+                  <div className={`w-16 h-16 bg-gradient-to-r ${service.color} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500 glow-effect hover-glow`}>
                     <Icon className="w-8 h-8 text-white" />
                   </div>
 
@@ -113,7 +115,7 @@ const ServicesSection = () => {
         </div>
 
         {/* Additional Services */}
-        <div className="bg-gradient-to-r from-primary/5 to-secondary/5 rounded-3xl p-8 lg:p-12">
+        <div className="bg-gradient-to-r from-primary/5 to-secondary/5 rounded-3xl p-8 lg:p-12 stagger-animate animate-on-scroll" style={{ animationDelay: '0.8s' }}>
           <div className="text-center mb-12">
             <h3 className="text-3xl font-display font-bold text-primary mb-4">
               Why Choose LifeBloom?
@@ -127,8 +129,8 @@ const ServicesSection = () => {
             {additionalServices.map((service, index) => {
               const Icon = service.icon;
               return (
-                <div key={index} className="text-center space-y-4">
-                  <div className="w-16 h-16 bg-gradient-to-r from-primary to-secondary rounded-2xl flex items-center justify-center mx-auto group-hover:scale-110 transition-transform duration-500 glow-effect">
+                <div key={index} className="text-center space-y-4 stagger-animate animate-on-scroll" style={{ animationDelay: `${1 + index * 0.1}s` }}>
+                  <div className="w-16 h-16 bg-gradient-to-r from-primary to-secondary rounded-2xl flex items-center justify-center mx-auto group-hover:scale-110 transition-transform duration-500 glow-effect hover-glow">
                     <Icon className="w-8 h-8 text-white" />
                   </div>
                   <h4 className="text-lg font-semibold text-primary">{service.title}</h4>

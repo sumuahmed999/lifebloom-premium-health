@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Star, Quote, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useStaggeredAnimation } from '@/hooks/useAnimations';
 
 const TestimonialsSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  useStaggeredAnimation(200);
 
   const testimonials = [
     {
@@ -67,7 +69,7 @@ const TestimonialsSection = () => {
       
       <div className="container mx-auto px-4 relative z-10">
         {/* Section Header */}
-        <div className="text-center space-y-6 mb-16">
+        <div className="text-center space-y-6 mb-16 stagger-animate animate-on-scroll">
           <div className="inline-flex items-center space-x-2 bg-secondary/20 backdrop-blur-sm px-4 py-2 rounded-full border border-secondary/30">
             <Quote className="w-5 h-5 text-secondary" />
             <span className="text-sm font-medium text-secondary">Patient Testimonials</span>
@@ -81,9 +83,9 @@ const TestimonialsSection = () => {
         </div>
 
         {/* Testimonial Carousel */}
-        <div className="relative max-w-4xl mx-auto">
+        <div className="relative max-w-4xl mx-auto stagger-animate animate-on-scroll stagger-2">
           {/* Main Testimonial */}
-          <div className="glass-card p-8 lg:p-12 text-center">
+          <div className="glass-card p-8 lg:p-12 text-center hover-lift">
             <div className="mb-8">
               <Quote className="w-12 h-12 text-secondary/30 mx-auto mb-6" />
               <p className="text-xl lg:text-2xl text-foreground leading-relaxed font-medium mb-8">
@@ -151,7 +153,7 @@ const TestimonialsSection = () => {
         </div>
 
         {/* Trust Indicators */}
-        <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 text-center stagger-animate animate-on-scroll stagger-3">
           <div className="space-y-2">
             <div className="text-3xl font-bold gradient-text">4.9/5</div>
             <div className="text-sm text-muted-foreground">Average Rating</div>

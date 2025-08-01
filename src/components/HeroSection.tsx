@@ -1,8 +1,16 @@
+import { useEffect, useState } from 'react';
 import { ArrowRight, Play, Shield, Award, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useStaggeredAnimation } from '@/hooks/useAnimations';
 import heroBg from '@/assets/hero-bg.jpg';
 
 const HeroSection = () => {
+  const [isLoaded, setIsLoaded] = useState(false);
+  useStaggeredAnimation(200);
+
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
   return (
     <section id="home" className="relative min-h-screen flex items-center overflow-hidden">
       {/* Background Image with Overlay */}
@@ -18,15 +26,15 @@ const HeroSection = () => {
       <div className="container mx-auto px-4 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center min-h-screen pt-20">
           {/* Left Content */}
-          <div className="space-y-8">
+          <div className={`space-y-8 ${isLoaded ? 'animate-fade-in-up' : 'opacity-0'}`}>
             {/* Badge */}
-            <div className="inline-flex items-center space-x-2 bg-secondary/20 backdrop-blur-sm px-4 py-2 rounded-full border border-secondary/30">
+            <div className="inline-flex items-center space-x-2 bg-secondary/20 backdrop-blur-sm px-4 py-2 rounded-full border border-secondary/30 stagger-animate animate-on-scroll stagger-1">
               <Award className="w-5 h-5 text-secondary" />
               <span className="text-sm font-medium text-secondary">Trusted Healthcare Partner</span>
             </div>
 
             {/* Main Headline */}
-            <div className="space-y-4">
+            <div className="space-y-4 stagger-animate animate-on-scroll stagger-2">
               <h1 className="text-5xl lg:text-7xl font-display font-bold leading-tight">
                 <span className="text-primary">Prevent.</span>{' '}
                 <span className="text-secondary">Preserve.</span>{' '}
@@ -38,7 +46,7 @@ const HeroSection = () => {
             </div>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-4 stagger-animate animate-on-scroll stagger-3">
               <Button className="btn-premium group">
                 Book a Consultation
                 <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
@@ -50,7 +58,7 @@ const HeroSection = () => {
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-3 gap-6 pt-8">
+            <div className="grid grid-cols-3 gap-6 pt-8 stagger-animate animate-on-scroll stagger-4">
               <div className="text-center lg:text-left">
                 <div className="flex items-center justify-center lg:justify-start space-x-2">
                   <Users className="w-6 h-6 text-secondary" />
@@ -76,12 +84,12 @@ const HeroSection = () => {
           </div>
 
           {/* Right Content - Floating Elements */}
-          <div className="relative hidden lg:block">
+          <div className={`relative hidden lg:block ${isLoaded ? 'animate-fade-in-left' : 'opacity-0'}`} style={{ animationDelay: '0.5s' }}>
             <div className="relative">
               {/* Main Floating Card */}
-              <div className="glass-card floating-card p-8 max-w-md mx-auto">
+              <div className="glass-card floating-card p-8 max-w-md mx-auto animate-float">
                 <div className="text-center space-y-4">
-                  <div className="w-16 h-16 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center mx-auto glow-effect">
+                  <div className="w-16 h-16 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center mx-auto glow-effect animate-glow">
                     <Shield className="w-8 h-8 text-white" />
                   </div>
                   <h3 className="text-xl font-semibold text-primary">Your Health, Our Priority</h3>
@@ -90,14 +98,14 @@ const HeroSection = () => {
               </div>
 
               {/* Floating Badges */}
-              <div className="absolute -top-10 -left-10 glass-card floating-card p-4">
+              <div className="absolute -top-10 -left-10 glass-card floating-card p-4 animate-bounce-in" style={{ animationDelay: '1s' }}>
                 <div className="text-center">
                   <div className="text-2xl font-bold text-secondary">99%</div>
                   <div className="text-xs text-muted-foreground">Satisfaction</div>
                 </div>
               </div>
 
-              <div className="absolute -bottom-10 -right-10 glass-card floating-card p-4">
+              <div className="absolute -bottom-10 -right-10 glass-card floating-card p-4 animate-bounce-in" style={{ animationDelay: '1.2s' }}>
                 <div className="text-center">
                   <div className="text-2xl font-bold text-primary">ISO</div>
                   <div className="text-xs text-muted-foreground">Certified</div>
@@ -109,8 +117,13 @@ const HeroSection = () => {
       </div>
 
       {/* Decorative Elements */}
-      <div className="absolute top-1/4 right-10 w-32 h-32 bg-secondary/10 rounded-full blur-3xl animate-pulse"></div>
-      <div className="absolute bottom-1/4 left-10 w-24 h-24 bg-primary/10 rounded-full blur-2xl animate-pulse delay-1000"></div>
+      <div className="absolute top-1/4 right-10 w-32 h-32 bg-secondary/10 rounded-full blur-3xl animate-pulse-slow"></div>
+      <div className="absolute bottom-1/4 left-10 w-24 h-24 bg-primary/10 rounded-full blur-2xl animate-pulse-slow" style={{ animationDelay: '1s' }}></div>
+      
+      {/* Scroll Indicator */}
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+        <div className="scroll-indicator"></div>
+      </div>
     </section>
   );
 };
