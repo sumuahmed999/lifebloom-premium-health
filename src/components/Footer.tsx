@@ -172,12 +172,12 @@ const Footer = () => {
             <div className="flex items-center space-x-2 text-sm text-muted-foreground">
               <span>Developed by </span>
               <a
-                href="https://sumuahmed9.netlify.app/"
+                href="https://softnetix.in/"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <span className="italic text-primary hover:underline">
-                  Sumu Ahmed
+                  Softnetix
                 </span>
               </a>
             </div>
