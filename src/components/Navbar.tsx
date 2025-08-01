@@ -26,7 +26,7 @@ const Navbar = () => {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled ? "bg-white/20 backdrop-blur-md shadow-lg" : "bg-transparent"
+        isScrolled ? "bg-white/40 backdrop-blur-md shadow-lg" : "bg-transparent"
       }`}
     >
       <div className="container mx-auto px-4">
@@ -36,9 +36,11 @@ const Navbar = () => {
             <img src={lifebloomLogo} alt="LifeBloom" className="w-12 h-12" />
             <div>
               <h1 className="text-2xl font-display font-bold gradient-text">
-                LifeBloom
+                Lifebloom
               </h1>
-              <p className="text-xs text-muted-foreground">Trusted Pharmacy</p>
+              <p className="text-xs text-muted-foreground">
+                Prevent.Preserve.Prosper
+              </p>
             </div>
           </div>
 
@@ -59,15 +61,21 @@ const Navbar = () => {
           <div className="hidden lg:flex items-center space-x-6">
             <div className="flex items-center space-x-4 text-sm">
               <div className="flex items-center space-x-1 text-muted-foreground">
-                <Phone className="w-4 h-4" />
-                <span>+91 8753911945</span>
-              </div>
-              <div className="flex items-center space-x-1 text-muted-foreground">
                 <MapPin className="w-4 h-4" />
-                <span>24/7 Available</span>
+                <span>Balipara,Tezpur</span>
               </div>
             </div>
-            <Button className="btn-premium">Book Consultation</Button>
+            <Button className="btn-premium">
+              <a
+                href="https://wa.me/918638904234"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center space-x-2 text-white-600 hover:none"
+              >
+                <Phone className="w-4 h-4" />
+                <span>+91 8638904234</span>
+              </a>
+            </Button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -85,7 +93,7 @@ const Navbar = () => {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden bg-white/95 backdrop-blur-md border-t">
+          <div className="lg:hidden bg-white/50 backdrop-blur-md border-t transition-all duration-500 animate-slideDown">
             <div className="px-4 py-6 space-y-4">
               {navItems.map((item) => (
                 <a
@@ -98,12 +106,16 @@ const Navbar = () => {
                 </a>
               ))}
               <div className="pt-4 border-t space-y-3">
-                <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-                  <Phone className="w-4 h-4" />
-                  <span>+1 (555) 123-4567</span>
-                </div>
                 <Button className="btn-premium w-full">
-                  Book Consultation
+                  <a
+                    href="https://wa.me/918638904234"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center space-x-2 text-white-600 hover:none"
+                  >
+                    <Phone className="w-4 h-4" />
+                    <span>+91 8638904234</span>
+                  </a>
                 </Button>
               </div>
             </div>

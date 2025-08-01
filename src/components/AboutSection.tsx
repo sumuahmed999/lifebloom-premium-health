@@ -5,10 +5,10 @@ import pharmacyInterior from "@/assets/pharmacy-interior.jpg";
 const AboutSection = () => {
   useStaggeredAnimation(150);
   const achievements = [
-    "15+ Years of Healthcare Excellence",
-    "50,000+ Satisfied Patients",
+    "2+ Years of Healthcare Excellence",
+    "500+ Satisfied Patients",
     "24/7 Emergency Support",
-    "ISO 9001:2015 Certified",
+    "Quality Assured",
     "Expert Medical Team",
     "State-of-the-art Facilities",
   ];
@@ -34,8 +34,10 @@ const AboutSection = () => {
                 Your Trusted Healthcare Partner
               </h2>
               <p className="text-xl text-muted-foreground leading-relaxed">
-                At LifeBloom, we believe that exceptional healthcare should be
-                accessible, personalized, and delivered with genuine care.
+                At LifeBloom, we believe healthcare should begin before
+                hospitals - in awareness, daily habits, and empowered choices.
+                We combine modern medical practices with compassionate service
+                to help individuals lead healthier, fuller lives.
               </p>
             </div>
 
@@ -51,8 +53,10 @@ const AboutSection = () => {
                   </h3>
                 </div>
                 <p className="text-muted-foreground">
-                  To provide comprehensive, accessible healthcare solutions that
-                  empower individuals to live healthier, more fulfilling lives.
+                  To empower communities through accessible, affordable, and
+                  preventive healthcare - blending modern medicine with
+                  compassionate care to help individuals live healthier, more
+                  fulfilling lives.
                 </p>
               </div>
 
@@ -66,8 +70,9 @@ const AboutSection = () => {
                   </h3>
                 </div>
                 <p className="text-muted-foreground">
-                  To be the leading healthcare provider that sets the standard
-                  for quality, innovation, and patient-centered care.
+                  To build a future where healthcare begins at home - empowering
+                  individuals with awareness and preventive care before illness
+                  takes hold, shaping a healthier tomorrow for all.
                 </p>
               </div>
             </div>
@@ -105,7 +110,7 @@ const AboutSection = () => {
               style={{ animationDelay: "0.5s" }}
             >
               <div className="text-center">
-                <div className="text-3xl font-bold gradient-text">15+</div>
+                <div className="text-3xl font-bold gradient-text">2+</div>
                 <div className="text-sm text-muted-foreground">Years</div>
               </div>
             </div>
@@ -115,7 +120,7 @@ const AboutSection = () => {
               style={{ animationDelay: "0.7s" }}
             >
               <div className="text-center">
-                <div className="text-3xl font-bold gradient-text">50K+</div>
+                <div className="text-3xl font-bold gradient-text">500+</div>
                 <div className="text-sm text-muted-foreground">Patients</div>
               </div>
             </div>

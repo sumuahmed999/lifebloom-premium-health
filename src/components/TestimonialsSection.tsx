@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
-import { Star, Quote, ChevronLeft, ChevronRight } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { useStaggeredAnimation } from '@/hooks/useAnimations';
+import { useState, useEffect } from "react";
+import { Star, Quote, ChevronLeft, ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useStaggeredAnimation } from "@/hooks/useAnimations";
 
 const TestimonialsSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -9,45 +9,32 @@ const TestimonialsSection = () => {
 
   const testimonials = [
     {
-      name: "Sarah Johnson",
+      name: "Sumu Ahmed",
       role: "Patient",
-      image: "https://images.unsplash.com/photo-1494790108755-2616b332c93c?w=150&h=150&fit=crop&crop=face",
+      image: "src/assets/sumu.jpg",
       rating: 5,
-      text: "LifeBloom has completely transformed my healthcare experience. Their 24/7 teleconsultation service saved me during an emergency, and the quality of care is exceptional."
+      text: "LifeBloom Pharmacy is my go-to place for medicines. The staff is friendly, and they always explain how to use my medicines clearly.",
     },
     {
-      name: "Michael Chen",
+      name: "Mrinmoy Jyoti Das",
       role: "Regular Customer",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
+      image: "https://cdn-icons-png.flaticon.com/512/9187/9187532.png",
       rating: 5,
-      text: "The convenience of home delivery and the expertise of their pharmacists is unmatched. I've been a loyal customer for over 3 years now."
+      text: "LifeBloom always has the medicines I need. The service is quick and the staff is helpful",
     },
     {
-      name: "Emily Rodriguez",
+      name: "Elon Musk",
       role: "Family Patient",
-      image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
+      image:
+        "https://futureoflife.org/wp-content/uploads/2020/08/elon_musk_royal_society.jpg",
       rating: 5,
-      text: "As a mother of two, LifeBloom's comprehensive family healthcare plans have been a blessing. Professional, caring, and always available when we need them."
+      text: "Best pharmacy in the area. Reasonable prices and supportive staff",
     },
-    {
-      name: "Dr. James Wilson",
-      role: "Referring Physician",
-      image: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=150&h=150&fit=crop&crop=face",
-      rating: 5,
-      text: "I regularly refer my patients to LifeBloom for their pharmaceutical needs. Their attention to detail and patient care standards align perfectly with my practice values."
-    },
-    {
-      name: "Lisa Thompson",
-      role: "Senior Citizen",
-      image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face",
-      rating: 5,
-      text: "The staff at LifeBloom treats me like family. Their wellness programs have significantly improved my quality of life, and I couldn't be happier with their services."
-    }
   ];
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentIndex((prevIndex) => 
+      setCurrentIndex((prevIndex) =>
         prevIndex === testimonials.length - 1 ? 0 : prevIndex + 1
       );
     }, 5000);
@@ -55,30 +42,37 @@ const TestimonialsSection = () => {
   }, [testimonials.length]);
 
   const nextTestimonial = () => {
-    setCurrentIndex(currentIndex === testimonials.length - 1 ? 0 : currentIndex + 1);
+    setCurrentIndex(
+      currentIndex === testimonials.length - 1 ? 0 : currentIndex + 1
+    );
   };
 
   const prevTestimonial = () => {
-    setCurrentIndex(currentIndex === 0 ? testimonials.length - 1 : currentIndex - 1);
+    setCurrentIndex(
+      currentIndex === 0 ? testimonials.length - 1 : currentIndex - 1
+    );
   };
 
   return (
     <section className="py-24 relative overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-secondary/10"></div>
-      
+
       <div className="container mx-auto px-4 relative z-10">
         {/* Section Header */}
         <div className="text-center space-y-6 mb-16 stagger-animate animate-on-scroll">
           <div className="inline-flex items-center space-x-2 bg-secondary/20 backdrop-blur-sm px-4 py-2 rounded-full border border-secondary/30">
             <Quote className="w-5 h-5 text-secondary" />
-            <span className="text-sm font-medium text-secondary">Patient Testimonials</span>
+            <span className="text-sm font-medium text-secondary">
+              Patient Testimonials
+            </span>
           </div>
           <h2 className="text-4xl lg:text-5xl font-display font-bold text-primary leading-tight">
             What Our Patients Say
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Don't just take our word for it. Hear from thousands of satisfied patients who have experienced the LifeBloom difference.
+            Don't just take our word for it. Hear from thousands of satisfied
+            patients who have experienced the LifeBloom difference.
           </p>
         </div>
 
@@ -91,11 +85,14 @@ const TestimonialsSection = () => {
               <p className="text-xl lg:text-2xl text-foreground leading-relaxed font-medium mb-8">
                 "{testimonials[currentIndex].text}"
               </p>
-              
+
               {/* Rating */}
               <div className="flex justify-center space-x-1 mb-6">
                 {[...Array(testimonials[currentIndex].rating)].map((_, i) => (
-                  <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                  <Star
+                    key={i}
+                    className="w-5 h-5 fill-yellow-400 text-yellow-400"
+                  />
                 ))}
               </div>
             </div>
@@ -142,9 +139,9 @@ const TestimonialsSection = () => {
               <button
                 key={index}
                 className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  index === currentIndex 
-                    ? 'bg-primary w-8' 
-                    : 'bg-muted-foreground/30 hover:bg-muted-foreground/50'
+                  index === currentIndex
+                    ? "bg-primary w-8"
+                    : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
                 }`}
                 onClick={() => setCurrentIndex(index)}
               />
@@ -159,16 +156,20 @@ const TestimonialsSection = () => {
             <div className="text-sm text-muted-foreground">Average Rating</div>
           </div>
           <div className="space-y-2">
-            <div className="text-3xl font-bold gradient-text">50K+</div>
+            <div className="text-3xl font-bold gradient-text">500+</div>
             <div className="text-sm text-muted-foreground">Happy Patients</div>
           </div>
           <div className="space-y-2">
             <div className="text-3xl font-bold gradient-text">99%</div>
-            <div className="text-sm text-muted-foreground">Satisfaction Rate</div>
+            <div className="text-sm text-muted-foreground">
+              Satisfaction Rate
+            </div>
           </div>
           <div className="space-y-2">
-            <div className="text-3xl font-bold gradient-text">15+</div>
-            <div className="text-sm text-muted-foreground">Years of Service</div>
+            <div className="text-3xl font-bold gradient-text">2+</div>
+            <div className="text-sm text-muted-foreground">
+              Years of Service
+            </div>
           </div>
         </div>
       </div>

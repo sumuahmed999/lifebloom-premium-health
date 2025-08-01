@@ -238,6 +238,20 @@
     background-size: 200% 100%;
     animation: shimmer 2s infinite;
   }
+  @keyframes slideDown {
+    0% {
+      transform: translateY(-20%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0%);
+      opacity: 1;
+    }
+  }
+
+  .animate-slideDown {
+    animation: slideDown 0.5s ease-out;
+  }
 
   @keyframes shimmer {
     0% {

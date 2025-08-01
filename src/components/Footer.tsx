@@ -28,9 +28,17 @@ const Footer = () => {
   ];
 
   const socialLinks = [
-    { icon: Facebook, href: "#", label: "Facebook" },
+    {
+      icon: Facebook,
+      href: "https://www.facebook.com/share/1GeX35jsr9/",
+      label: "Facebook",
+    },
     { icon: Twitter, href: "#", label: "Twitter" },
-    { icon: Instagram, href: "#", label: "Instagram" },
+    {
+      icon: Instagram,
+      href: "https://www.instagram.com/lifebloom.in",
+      label: "Instagram",
+    },
     { icon: Linkedin, href: "#", label: "LinkedIn" },
   ];
 
@@ -47,7 +55,7 @@ const Footer = () => {
                   LifeBloom
                 </h3>
                 <p className="text-sm text-muted-foreground">
-                  Premium Pharmacy
+                  Prevent.Preserve.Prosper
                 </p>
               </div>
             </div>
@@ -61,7 +69,7 @@ const Footer = () => {
             <div className="space-y-3">
               <div className="flex items-center space-x-3 text-sm">
                 <Phone className="w-4 h-4 text-secondary" />
-                <span className="text-foreground">+1 (555) 123-4567</span>
+                <span className="text-foreground">+91 8638904234</span>
               </div>
               <div className="flex items-center space-x-3 text-sm">
                 <Mail className="w-4 h-4 text-secondary" />
@@ -69,9 +77,7 @@ const Footer = () => {
               </div>
               <div className="flex items-center space-x-3 text-sm">
                 <MapPin className="w-4 h-4 text-secondary" />
-                <span className="text-foreground">
-                  123 Health Street, NY 10001
-                </span>
+                <span className="text-foreground">Balipara, Tezpur</span>
               </div>
             </div>
           </div>
@@ -163,30 +169,17 @@ const Footer = () => {
               <span>© 2025 LifeBloom. All rights reserved.</span>
             </div>
 
-            <div className="flex items-center space-x-6 text-sm">
-              <a
-                href="#"
-                className="text-muted-foreground hover:text-secondary transition-colors"
-              >
-                Privacy Policy
-              </a>
-              <a
-                href="#"
-                className="text-muted-foreground hover:text-secondary transition-colors"
-              >
-                Terms of Service
-              </a>
-              <a
-                href="#"
-                className="text-muted-foreground hover:text-secondary transition-colors"
-              >
-                Cookie Policy
-              </a>
-            </div>
-
             <div className="flex items-center space-x-2 text-sm text-muted-foreground">
               <span>Developed by </span>
-              <span>Sumu Ahmed</span>
+              <a
+                href="https://sumuahmed9.netlify.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span className="italic text-primary hover:underline">
+                  Sumu Ahmed
+                </span>
+              </a>
             </div>
           </div>
         </div>
