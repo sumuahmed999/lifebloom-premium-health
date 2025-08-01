@@ -11,7 +11,8 @@ const TestimonialsSection = () => {
     {
       name: "Sumu Ahmed",
       role: "Patient",
-      image: "src/assets/sumu.jpg",
+      image:
+        "https://res.cloudinary.com/di2chaikk/image/upload/v1754086034/sumu_o6u9rv.jpg",
       rating: 5,
       text: "LifeBloom Pharmacy is my go-to place for medicines. The staff is friendly, and they always explain how to use my medicines clearly.",
     },
