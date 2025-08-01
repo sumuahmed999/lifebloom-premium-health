@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
-import { Menu, X, Phone, MapPin } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import lifebloomLogo from '@/assets/lifebloom-logo.png';
+import { useState, useEffect } from "react";
+import { Menu, X, Phone, MapPin } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import lifebloomLogo from "@/assets/lifebloom-logo.png";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -11,32 +11,34 @@ const Navbar = () => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const navItems = [
-    { label: 'Home', href: '#home' },
-    { label: 'About', href: '#about' },
-    { label: 'Services', href: '#services' },
-    { label: 'Why Choose Us', href: '#why-choose' },
-    { label: 'Contact', href: '#contact' }
+    { label: "Home", href: "#home" },
+    { label: "About", href: "#about" },
+    { label: "Services", href: "#services" },
+    { label: "Why Choose Us", href: "#why-choose" },
+    { label: "Contact", href: "#contact" },
   ];
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-      isScrolled 
-        ? 'bg-white/95 backdrop-blur-md shadow-lg' 
-        : 'bg-transparent'
-    }`}>
+    <nav
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        isScrolled ? "bg-white/20 backdrop-blur-md shadow-lg" : "bg-transparent"
+      }`}
+    >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <div className="flex items-center space-x-3">
             <img src={lifebloomLogo} alt="LifeBloom" className="w-12 h-12" />
             <div>
-              <h1 className="text-2xl font-display font-bold gradient-text">LifeBloom</h1>
-              <p className="text-xs text-muted-foreground">Premium Pharmacy</p>
+              <h1 className="text-2xl font-display font-bold gradient-text">
+                LifeBloom
+              </h1>
+              <p className="text-xs text-muted-foreground">Trusted Pharmacy</p>
             </div>
           </div>
 
@@ -58,16 +60,14 @@ const Navbar = () => {
             <div className="flex items-center space-x-4 text-sm">
               <div className="flex items-center space-x-1 text-muted-foreground">
                 <Phone className="w-4 h-4" />
-                <span>+1 (555) 123-4567</span>
+                <span>+91 8753911945</span>
               </div>
               <div className="flex items-center space-x-1 text-muted-foreground">
                 <MapPin className="w-4 h-4" />
                 <span>24/7 Available</span>
               </div>
             </div>
-            <Button className="btn-premium">
-              Book Consultation
-            </Button>
+            <Button className="btn-premium">Book Consultation</Button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -75,7 +75,11 @@ const Navbar = () => {
             className="lg:hidden p-2"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
-            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {isMobileMenuOpen ? (
+              <X className="w-6 h-6" />
+            ) : (
+              <Menu className="w-6 h-6" />
+            )}
           </button>
         </div>
 

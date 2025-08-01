@@ -1,28 +1,37 @@
-import { Mail, Phone, MapPin, Facebook, Twitter, Instagram, Linkedin, Heart } from 'lucide-react';
-import lifebloomLogo from '@/assets/lifebloom-logo.png';
+import {
+  Mail,
+  Phone,
+  MapPin,
+  Facebook,
+  Twitter,
+  Instagram,
+  Linkedin,
+  Heart,
+} from "lucide-react";
+import lifebloomLogo from "@/assets/lifebloom-logo.png";
 
 const Footer = () => {
   const quickLinks = [
-    { label: 'About Us', href: '#about' },
-    { label: 'Our Services', href: '#services' },
-    { label: 'Health Checkups', href: '#services' },
-    { label: 'Teleconsultation', href: '#services' },
-    { label: 'Contact Us', href: '#contact' }
+    { label: "About Us", href: "#about" },
+    { label: "Our Services", href: "#services" },
+    { label: "Health Checkups", href: "#services" },
+    { label: "Teleconsultation", href: "#services" },
+    { label: "Contact Us", href: "#contact" },
   ];
 
   const services = [
-    { label: 'Prescription Medicines', href: '#services' },
-    { label: 'Home Delivery', href: '#services' },
-    { label: 'Wellness Programs', href: '#services' },
-    { label: 'Health Insurance', href: '#services' },
-    { label: 'Emergency Support', href: '#contact' }
+    { label: "Prescription Medicines", href: "#services" },
+    { label: "Home Delivery", href: "#services" },
+    { label: "Wellness Programs", href: "#services" },
+    { label: "Health Insurance", href: "#services" },
+    { label: "Emergency Support", href: "#contact" },
   ];
 
   const socialLinks = [
-    { icon: Facebook, href: '#', label: 'Facebook' },
-    { icon: Twitter, href: '#', label: 'Twitter' },
-    { icon: Instagram, href: '#', label: 'Instagram' },
-    { icon: Linkedin, href: '#', label: 'LinkedIn' }
+    { icon: Facebook, href: "#", label: "Facebook" },
+    { icon: Twitter, href: "#", label: "Twitter" },
+    { icon: Instagram, href: "#", label: "Instagram" },
+    { icon: Linkedin, href: "#", label: "LinkedIn" },
   ];
 
   return (
@@ -34,13 +43,19 @@ const Footer = () => {
             <div className="flex items-center space-x-3">
               <img src={lifebloomLogo} alt="LifeBloom" className="w-12 h-12" />
               <div>
-                <h3 className="text-2xl font-display font-bold gradient-text">LifeBloom</h3>
-                <p className="text-sm text-muted-foreground">Premium Pharmacy</p>
+                <h3 className="text-2xl font-display font-bold gradient-text">
+                  LifeBloom
+                </h3>
+                <p className="text-sm text-muted-foreground">
+                  Premium Pharmacy
+                </p>
               </div>
             </div>
-            
+
             <p className="text-muted-foreground leading-relaxed">
-              Your trusted partner in healthcare. We provide comprehensive medical solutions with a focus on quality, accessibility, and patient-centered care.
+              Your trusted partner in healthcare. We provide comprehensive
+              medical solutions with a focus on quality, accessibility, and
+              patient-centered care.
             </p>
 
             <div className="space-y-3">
@@ -54,7 +69,9 @@ const Footer = () => {
               </div>
               <div className="flex items-center space-x-3 text-sm">
                 <MapPin className="w-4 h-4 text-secondary" />
-                <span className="text-foreground">123 Health Street, NY 10001</span>
+                <span className="text-foreground">
+                  123 Health Street, NY 10001
+                </span>
               </div>
             </div>
           </div>
@@ -95,11 +112,13 @@ const Footer = () => {
 
           {/* Newsletter & Social */}
           <div className="space-y-6">
-            <h4 className="text-lg font-semibold text-primary">Stay Connected</h4>
+            <h4 className="text-lg font-semibold text-primary">
+              Stay Connected
+            </h4>
             <p className="text-muted-foreground text-sm">
               Subscribe to our newsletter for health tips and updates.
             </p>
-            
+
             <div className="space-y-3">
               <div className="flex">
                 <input
@@ -115,7 +134,9 @@ const Footer = () => {
 
             {/* Social Links */}
             <div>
-              <p className="text-sm font-medium text-foreground mb-3">Follow Us</p>
+              <p className="text-sm font-medium text-foreground mb-3">
+                Follow Us
+              </p>
               <div className="flex space-x-3">
                 {socialLinks.map((social, index) => {
                   const Icon = social.icon;
@@ -139,25 +160,33 @@ const Footer = () => {
         <div className="border-t border-border/50 pt-8">
           <div className="flex flex-col lg:flex-row justify-between items-center space-y-4 lg:space-y-0">
             <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-              <span>© 2024 LifeBloom. All rights reserved.</span>
+              <span>© 2025 LifeBloom. All rights reserved.</span>
             </div>
-            
+
             <div className="flex items-center space-x-6 text-sm">
-              <a href="#" className="text-muted-foreground hover:text-secondary transition-colors">
+              <a
+                href="#"
+                className="text-muted-foreground hover:text-secondary transition-colors"
+              >
                 Privacy Policy
               </a>
-              <a href="#" className="text-muted-foreground hover:text-secondary transition-colors">
+              <a
+                href="#"
+                className="text-muted-foreground hover:text-secondary transition-colors"
+              >
                 Terms of Service
               </a>
-              <a href="#" className="text-muted-foreground hover:text-secondary transition-colors">
+              <a
+                href="#"
+                className="text-muted-foreground hover:text-secondary transition-colors"
+              >
                 Cookie Policy
               </a>
             </div>
 
             <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-              <span>Made with</span>
-              <Heart className="w-4 h-4 text-red-500 fill-current" />
-              <span>for better health</span>
+              <span>Developed by </span>
+              <span>Sumu Ahmed</span>
             </div>
           </div>
         </div>
