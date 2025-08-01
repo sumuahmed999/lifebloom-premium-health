@@ -2,41 +2,65 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* LifeBloom Premium Pharmacy Design System */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* LifeBloom Brand Colors */
+    --lifebloom-deep-blue: 207 61% 35%;
+    --lifebloom-healthy-green: 122 35% 46%;
+    --lifebloom-soft-white: 180 9% 98%;
+    --lifebloom-blue-light: 207 61% 85%;
+    --lifebloom-green-light: 122 35% 85%;
+    
+    /* Core System Colors */
+    --background: 180 9% 98%;
+    --foreground: 207 61% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 207 61% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 207 61% 15%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 207 61% 35%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 122 35% 46%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 207 20% 95%;
+    --muted-foreground: 207 15% 45%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 122 35% 85%;
+    --accent-foreground: 207 61% 35%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 207 20% 90%;
+    --input: 207 20% 90%;
+    --ring: 207 61% 35%;
 
-    --radius: 0.5rem;
+    /* Premium Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--lifebloom-deep-blue)), hsl(var(--lifebloom-healthy-green)));
+    --gradient-soft: linear-gradient(135deg, hsl(var(--lifebloom-blue-light)), hsl(var(--lifebloom-green-light)));
+    --gradient-hero: linear-gradient(135deg, hsl(var(--lifebloom-soft-white)), hsl(var(--lifebloom-blue-light) / 0.3));
+    
+    /* Glass Effects */
+    --glass-bg: hsl(var(--background) / 0.8);
+    --glass-border: hsl(var(--border) / 0.3);
+    
+    /* Shadows */
+    --shadow-premium: 0 20px 60px -15px hsl(var(--lifebloom-deep-blue) / 0.3);
+    --shadow-card: 0 10px 40px -10px hsl(var(--lifebloom-deep-blue) / 0.15);
+    --shadow-glow: 0 0 30px hsl(var(--lifebloom-healthy-green) / 0.4);
+    
+    /* Animation Curves */
+    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+    --radius: 1rem;
 
     --sidebar-background: 0 0% 98%;
 
@@ -100,6 +124,49 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
+  }
+}
+
+@layer components {
+  /* Glass Card Component */
+  .glass-card {
+    @apply backdrop-blur-lg bg-white/10 border border-white/20 rounded-2xl;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  }
+  
+  /* Premium Button Variants */
+  .btn-premium {
+    @apply bg-gradient-to-r from-primary to-secondary text-white px-8 py-4 rounded-xl font-semibold tracking-wide transition-all duration-500 hover:scale-105 hover:shadow-2xl;
+    box-shadow: var(--shadow-premium);
+  }
+  
+  .btn-outline-premium {
+    @apply border-2 border-primary/30 text-primary px-8 py-4 rounded-xl font-semibold tracking-wide transition-all duration-500 hover:bg-primary hover:text-white hover:scale-105;
+  }
+  
+  /* Floating Card Animation */
+  .floating-card {
+    @apply transition-all duration-500 hover:scale-105 hover:-translate-y-2;
+    box-shadow: var(--shadow-card);
+  }
+  
+  .floating-card:hover {
+    box-shadow: var(--shadow-premium);
+  }
+  
+  /* Gradient Text */
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent;
+  }
+  
+  /* Glowing Effect */
+  .glow-effect {
+    box-shadow: var(--shadow-glow);
+  }
+  
+  /* Premium Input */
+  .input-premium {
+    @apply bg-white/50 backdrop-blur-sm border border-white/30 rounded-xl px-6 py-4 text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all duration-300;
   }
 }
