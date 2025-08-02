@@ -98,13 +98,13 @@ const ContactSection = () => {
             </div>
 
             {/* Contact Cards */}
-            <div className="grid sm:grid-cols-2 gap-6 stagger-animate animate-on-scroll stagger-2">
+            <div className="grid grid-cols-2 gap-6 stagger-animate animate-on-scroll stagger-2">
               {contactInfo.map((item, index) => {
                 const Icon = item.icon;
                 return (
                   <div
                     key={index}
-                    className="glass-card floating-card p-6 hover-lift"
+                    className="glass-card floating-card p-6 hover-lift flex flex-col items-center justify-center text-center"
                   >
                     <div
                       className={`w-12 h-12 bg-gradient-to-r ${item.color} rounded-xl flex items-center justify-center mb-4 hover-glow`}
