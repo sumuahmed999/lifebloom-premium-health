@@ -7,6 +7,15 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 80px; /* Account for sticky navbar */
+  }
+  
+  * {
+    -webkit-overflow-scrolling: touch; /* iOS momentum scrolling */
+  }
+  
+  body {
+    overscroll-behavior: none; /* Prevent bounce scrolling */
   }
   :root {
     /* LifeBloom Brand Colors */
