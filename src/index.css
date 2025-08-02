@@ -6,16 +6,40 @@
 
 @layer base {
   html {
-    scroll-behavior: smooth;
-    scroll-padding-top: 80px; /* Account for sticky navbar */
+    scroll-behavior: auto; /* Will be overridden by custom smooth scroll */
+    scroll-padding-top: 80px;
+    overflow-x: hidden;
   }
   
   * {
-    -webkit-overflow-scrolling: touch; /* iOS momentum scrolling */
+    -webkit-overflow-scrolling: touch;
   }
   
   body {
-    overscroll-behavior: none; /* Prevent bounce scrolling */
+    overscroll-behavior: none;
+    scroll-snap-type: y proximity;
+    /* Premium buttery scroll foundation */
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--primary) / 0.3) transparent;
+  }
+
+  /* Custom scrollbar for webkit browsers */
+  body::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  body::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  body::-webkit-scrollbar-thumb {
+    background: hsl(var(--primary) / 0.3);
+    border-radius: 3px;
+    transition: background 0.3s ease;
+  }
+
+  body::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary) / 0.5);
   }
   :root {
     /* LifeBloom Brand Colors */
