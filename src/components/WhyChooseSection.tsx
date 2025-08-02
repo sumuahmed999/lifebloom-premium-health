@@ -72,7 +72,7 @@ const WhyChooseSection = () => {
 
           {/* Additional Services */}
           <div
-            className="bg-gradient-to-r from-primary/5 to-secondary/5 rounded-3xl p-8 lg:p-12 stagger-animate animate-on-scroll"
+            className="bg-gradient-to-r from-primary/5 to-secondary/40 rounded-3xl p-8 lg:p-12 stagger-animate animate-on-scroll"
             style={{ animationDelay: "0.8s" }}
           >
             <div className="text-center mb-12">
@@ -123,7 +123,7 @@ const WhyChooseSection = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
             {badges.map((badge, index) => {
               const Icon = badge.icon;
               return (
@@ -138,9 +138,9 @@ const WhyChooseSection = () => {
                     >
                       <Icon className="w-6 h-6 text-white" />
                     </div>
-                    <h4 className="font-semibold text-primary">
+                    <h3 className="font-semibold text-primary">
                       {badge.label}
-                    </h4>
+                    </h3>
                   </div>
                 </div>
               );
