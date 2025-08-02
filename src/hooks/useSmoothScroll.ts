@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
-const SCROLL_SPEED = 0.1; // Lower = smoother, higher = faster
+const SCROLL_SPEED = 0.9; // Lower = smoother, higher = faster
 const SCROLL_THRESHOLD = 0.5;
 
 export const useSmoothScroll = () => {
@@ -21,7 +21,7 @@ export const useSmoothScroll = () => {
 
     const animate = () => {
       currentScroll += (targetScroll - currentScroll) * ease;
-      
+
       if (Math.abs(targetScroll - currentScroll) > SCROLL_THRESHOLD) {
         window.scrollTo(0, currentScroll);
         requestId = requestAnimationFrame(animate);
@@ -33,13 +33,14 @@ export const useSmoothScroll = () => {
 
     const handleWheel = (e: WheelEvent) => {
       e.preventDefault();
-      
+
       // Calculate new target position
       const delta = e.deltaY * SCROLL_SPEED;
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      
+      const maxScroll =
+        document.documentElement.scrollHeight - window.innerHeight;
+
       targetScroll = Math.max(0, Math.min(maxScroll, targetScroll + delta));
-      
+
       if (!isScrolling) {
         currentScroll = window.pageYOffset;
         isScrolling = true;
@@ -57,31 +58,35 @@ export const useSmoothScroll = () => {
     targetScroll = currentScroll;
 
     // Add event listeners
-    document.addEventListener('wheel', handleWheel, { passive: false });
-    window.addEventListener('resize', handleResize);
+    document.addEventListener("wheel", handleWheel, { passive: false });
+    window.addEventListener("resize", handleResize);
 
     // Handle anchor clicks for smooth navigation
     const handleAnchorClick = (e: Event) => {
       const target = e.target as HTMLElement;
-      if (target.tagName === 'A' && target.getAttribute('href')?.startsWith('#')) {
+      if (
+        target.tagName === "A" &&
+        target.getAttribute("href")?.startsWith("#")
+      ) {
         e.preventDefault();
-        const href = target.getAttribute('href');
+        const href = target.getAttribute("href");
         if (href) {
           const element = document.querySelector(href);
           if (element) {
-            const elementTop = element.getBoundingClientRect().top + window.pageYOffset;
+            const elementTop =
+              element.getBoundingClientRect().top + window.pageYOffset;
             smoothScrollTo(elementTop - 80); // Account for navbar
           }
         }
       }
     };
 
-    document.addEventListener('click', handleAnchorClick);
+    document.addEventListener("click", handleAnchorClick);
 
     return () => {
-      document.removeEventListener('wheel', handleWheel);
-      window.removeEventListener('resize', handleResize);
-      document.removeEventListener('click', handleAnchorClick);
+      document.removeEventListener("wheel", handleWheel);
+      window.removeEventListener("resize", handleResize);
+      document.removeEventListener("click", handleAnchorClick);
       if (requestId) {
         cancelAnimationFrame(requestId);
       }
