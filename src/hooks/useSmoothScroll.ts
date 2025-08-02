@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-const SCROLL_SPEED = 0.9; // Lower = smoother, higher = faster
+const SCROLL_SPEED = 1; // Lower = smoother, higher = faster
 const SCROLL_THRESHOLD = 0.5;
 
 export const useSmoothScroll = () => {
