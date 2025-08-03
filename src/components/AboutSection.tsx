@@ -10,7 +10,6 @@ const AboutSection = () => {
     "24/7 Emergency Support",
     "Quality Assured",
     "Expert Medical Team",
-    "State-of-the-art Facilities",
   ];
 
   return (

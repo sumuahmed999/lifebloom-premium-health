@@ -7,6 +7,7 @@ import {
   Truck,
   UserCheck,
   Clock,
+  Users,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useStaggeredAnimation } from "@/hooks/useAnimations";
@@ -31,19 +32,23 @@ const ServicesSection = () => {
       color: "from-green-500 to-green-600",
     },
     {
-      icon: Phone,
-      title: "Teleconsultation",
+      icon: Users,
+      title: "In-Clinic Consultation",
       description:
-        "Connect with certified doctors and healthcare professionals from the comfort of your home.",
-      features: ["24/7 Available", "Video Calls", "Prescription Delivery"],
-      color: "from-purple-500 to-purple-600",
+        "Book appointments with experienced doctors for personalized face-to-face consultation.",
+      features: ["Expert Doctors", "Flexible Slots", "Modern Facilities"],
+      color: "from-yellow-500 to-yellow-600",
     },
     {
       icon: Heart,
       title: "Wellness Programs",
       description:
         "Personalized wellness plans and health monitoring for chronic disease management.",
-      features: ["Diet Plans", "Fitness Tracking", "Regular Monitoring"],
+      features: [
+        "Diet Plans",
+        "Patient specific disease",
+        "illness Monitoring",
+      ],
       color: "from-pink-500 to-pink-600",
     },
   ];

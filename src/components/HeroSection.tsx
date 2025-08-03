@@ -1,5 +1,12 @@
 import { useEffect, useState } from "react";
-import { ArrowRight, Play, Shield, Award, Users } from "lucide-react";
+import {
+  ArrowRight,
+  Play,
+  Shield,
+  Award,
+  Users,
+  BadgePercent,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useStaggeredAnimation } from "@/hooks/useAnimations";
 import heroBg from "@/assets/hero-bg1.jpg";
@@ -54,6 +61,14 @@ const HeroSection = () => {
                 modern medicine meets compassionate care for your wellness
                 journey.
               </p>
+            </div>
+
+            {/* Offer Badge */}
+            <div className="relative inline-flex items-center space-x-2 px-4 py-2 rounded-full border border-green-300 bg-gradient-to-r from-green-50/60 to-white/30 backdrop-blur-md shadow-md ring-1 ring-green-400/30 hover:ring-green-500/60 transition-all duration-300 group stagger-animate animate-on-scroll stagger-1.5">
+              <BadgePercent className="w-5 h-5 text-green-600 group-hover:scale-110 transition-transform duration-300" />
+              <span className="text-sm font-semibold text-green-700 group-hover:text-green-800">
+                Up to 10% Off on Medicine & Lab Tests
+              </span>
             </div>
 
             {/* CTA Buttons */}
