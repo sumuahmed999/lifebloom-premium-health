@@ -43,12 +43,8 @@ const ServicesSection = () => {
       icon: Heart,
       title: "Wellness Programs",
       description:
-        "Personalized wellness plans and health monitoring for chronic disease management.",
-      features: [
-        "Diet Plans",
-        "Patient specific disease",
-        "illness Monitoring",
-      ],
+        "Personalized wellness plans and health guidance for chronic disease management.",
+      features: ["Diet Plans", "Patient specific illness Monitoring"],
       color: "from-pink-500 to-pink-600",
     },
   ];
