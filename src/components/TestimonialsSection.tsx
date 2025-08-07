@@ -24,10 +24,9 @@ const TestimonialsSection = () => {
       text: "LifeBloom always has the medicines I need. The service is quick and the staff is helpful",
     },
     {
-      name: "Elon Musk",
+      name: "Dibya Jyoti Nath",
       role: "Family Patient",
-      image:
-        "https://futureoflife.org/wp-content/uploads/2020/08/elon_musk_royal_society.jpg",
+      image: "https://cdn-icons-png.flaticon.com/512/9187/9187532.png",
       rating: 5,
       text: "Best pharmacy in the area. Reasonable prices and supportive staff",
     },
