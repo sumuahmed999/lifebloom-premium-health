@@ -15,7 +15,6 @@ const Footer = () => {
     { label: "About Us", href: "#about" },
     { label: "Our Services", href: "#services" },
     { label: "Health Checkups", href: "#services" },
-    { label: "Teleconsultation", href: "#services" },
     { label: "Contact Us", href: "#contact" },
   ];
 
