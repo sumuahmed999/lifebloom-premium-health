@@ -9,6 +9,8 @@ const AboutSection = () => {
     "500+ Satisfied Patients",
     "24/7 Emergency Support",
     "Quality Assured",
+    "Upto 10% discount on medicine",
+    "In home blood sample collection",
     "Expert Medical Team",
   ];
 
