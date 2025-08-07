@@ -9,19 +9,19 @@ const TestimonialsSection = () => {
 
   const testimonials = [
     {
+      name: "Mrinmoy Jyoti Das",
+      role: "Regular Customer",
+      image: "https://cdn-icons-png.flaticon.com/512/9187/9187532.png",
+      rating: 5,
+      text: "LifeBloom always has the medicines I need. The service is quick and the staff is helpful",
+    },
+    {
       name: "Sumu Ahmed",
       role: "Patient",
       image:
         "https://res.cloudinary.com/di2chaikk/image/upload/v1754086034/sumu_o6u9rv.jpg",
       rating: 5,
       text: "LifeBloom Pharmacy is my go-to place for medicines. The staff is friendly, and they always explain how to use my medicines clearly.",
-    },
-    {
-      name: "Mrinmoy Jyoti Das",
-      role: "Regular Customer",
-      image: "https://cdn-icons-png.flaticon.com/512/9187/9187532.png",
-      rating: 5,
-      text: "LifeBloom always has the medicines I need. The service is quick and the staff is helpful",
     },
     {
       name: "Dibya Jyoti Nath",
