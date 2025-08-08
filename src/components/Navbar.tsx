@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
-import { Menu, X, Phone, MapPin } from "lucide-react";
+import { Menu, X, Phone, MapPin, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 import lifebloomLogo from "@/assets/lifebloom-logo.png";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -65,6 +67,15 @@ const Navbar = () => {
                 <span>Balipara,Tezpur</span>
               </div>
             </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => navigate('/admin')}
+              className="border-primary/30 text-primary hover:bg-primary hover:text-white"
+            >
+              <Settings className="w-4 h-4 mr-2" />
+              Admin
+            </Button>
             <Button className="btn-premium">
               <a
                 href="https://wa.me/918638904234"
