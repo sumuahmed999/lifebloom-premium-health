@@ -67,15 +67,6 @@ const Navbar = () => {
                 <span>Balipara,Tezpur</span>
               </div>
             </div>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => navigate('/admin')}
-              className="border-primary/30 text-primary hover:bg-primary hover:text-white"
-            >
-              <Settings className="w-4 h-4 mr-2" />
-              Admin
-            </Button>
             <Button className="btn-premium">
               <a
                 href="https://wa.me/918638904234"

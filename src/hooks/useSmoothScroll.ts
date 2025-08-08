@@ -7,7 +7,7 @@ export const useSmoothScroll = () => {
   useEffect(() => {
     let currentScroll = 0;
     let targetScroll = 0;
-    let ease = 0.08; // Buttery smooth easing
+    let ease = 0.09; // Buttery smooth easing
     let isScrolling = false;
     let requestId: number;
 
