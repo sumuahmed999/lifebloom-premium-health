@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 import { Menu, X, Phone, MapPin, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import lifebloomLogo from "@/assets/lifebloom-logo.png";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,6 +17,39 @@ const Navbar = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    setIsMobileMenuOpen(false);
+    
+    // If we're not on the home page, navigate to home first
+    if (location.pathname !== '/') {
+      navigate('/');
+      // Store the target section in sessionStorage
+      sessionStorage.setItem('scrollTarget', href);
+    } else {
+      // Already on home page, just scroll
+      const element = document.querySelector(href);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
+
+  // Effect to handle scrolling after navigation
+  useEffect(() => {
+    const scrollTarget = sessionStorage.getItem('scrollTarget');
+    if (scrollTarget && location.pathname === '/') {
+      // Wait for page to fully load
+      setTimeout(() => {
+        const element = document.querySelector(scrollTarget);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+        sessionStorage.removeItem('scrollTarget');
+      }, 300);
+    }
+  }, [location]);
 
   const navItems = [
     { label: "Home", href: "#home" },
@@ -52,7 +86,8 @@ const Navbar = () => {
               <a
                 key={item.label}
                 href={item.href}
-                className="text-foreground hover:text-primary transition-colors duration-300 font-medium"
+                onClick={(e) => handleNavClick(e, item.href)}
+                className="text-foreground hover:text-primary transition-colors duration-300 font-medium cursor-pointer"
               >
                 {item.label}
               </a>
@@ -101,8 +136,8 @@ const Navbar = () => {
                 <a
                   key={item.label}
                   href={item.href}
-                  className="block text-foreground hover:text-primary transition-colors duration-300 font-medium py-2"
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  onClick={(e) => handleNavClick(e, item.href)}
+                  className="block text-foreground hover:text-primary transition-colors duration-300 font-medium py-2 cursor-pointer"
                 >
                   {item.label}
                 </a>

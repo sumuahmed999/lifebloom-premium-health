@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useStaggeredAnimation } from "@/hooks/useAnimations";
+import { supabase } from "@/integrations/supabase/client";
 
 const ContactSection = () => {
   useStaggeredAnimation(150);
@@ -15,21 +16,86 @@ const ContactSection = () => {
     message: "",
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [phoneError, setPhoneError] = useState<string | null>(null);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+    
+    // Phone number validation
+    if (name === 'phone') {
+      // Remove all non-digit characters
+      const digitsOnly = value.replace(/\D/g, '');
+      
+      // Only allow up to 10 digits
+      const limitedDigits = digitsOnly.slice(0, 10);
+      
+      // Validate phone number
+      if (limitedDigits.length > 0 && limitedDigits.length < 10) {
+        setPhoneError('Phone number must be exactly 10 digits');
+      } else if (limitedDigits.length === 10) {
+        setPhoneError(null);
+      } else {
+        setPhoneError(null);
+      }
+      
+      setFormData({
+        ...formData,
+        [name]: limitedDigits,
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission here
-    setIsSubmitted(true);
-    setTimeout(() => setIsSubmitted(false), 3000);
+    setIsSubmitting(true);
+    setError(null);
+
+    // Validate phone number if provided
+    if (formData.phone && formData.phone.length !== 10) {
+      setError('Phone number must be exactly 10 digits');
+      setIsSubmitting(false);
+      return;
+    }
+
+    try {
+      const { error: submitError } = await supabase
+        .from('enquiries')
+        .insert([{
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone || null,
+          subject: formData.subject,
+          message: formData.message,
+          status: 'new'
+        }]);
+
+      if (submitError) throw submitError;
+
+      setIsSubmitted(true);
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        subject: "",
+        message: "",
+      });
+      setPhoneError(null);
+      setTimeout(() => setIsSubmitted(false), 5000);
+    } catch (err) {
+      console.error('Error submitting enquiry:', err);
+      setError('Failed to send message. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const contactInfo = [
@@ -153,12 +219,16 @@ const ContactSection = () => {
                   Message Sent!
                 </h4>
                 <p className="text-muted-foreground">
-                  Thank you for contacting us. We'll get back to you within 2
-                  hours.
+                  Thank you for contacting us. We'll get back to you within 24 hours.
                 </p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
+                {error && (
+                  <div className="p-4 bg-destructive/10 border border-destructive/20 rounded-lg text-destructive text-sm">
+                    {error}
+                  </div>
+                )}
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
                     <label
@@ -213,8 +283,17 @@ const ContactSection = () => {
                       value={formData.phone}
                       onChange={handleInputChange}
                       className="input-premium"
-                      placeholder="+91 1234567890"
+                      placeholder="1234567890"
+                      maxLength={10}
                     />
+                    {phoneError && (
+                      <p className="text-sm text-destructive mt-1">{phoneError}</p>
+                    )}
+                    {formData.phone && !phoneError && (
+                      <p className="text-xs text-muted-foreground mt-1">
+                        {formData.phone.length}/10 digits
+                      </p>
+                    )}
                   </div>
                   <div>
                     <label
@@ -255,8 +334,8 @@ const ContactSection = () => {
                   />
                 </div>
 
-                <Button type="submit" className="btn-premium w-full group">
-                  Send Message
+                <Button type="submit" className="btn-premium w-full group" disabled={isSubmitting}>
+                  {isSubmitting ? 'Sending...' : 'Send Message'}
                   <Send className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </form>

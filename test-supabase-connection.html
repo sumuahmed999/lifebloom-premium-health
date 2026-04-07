@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Supabase Connection</title>
+</head>
+<body>
+    <h1>Testing Supabase Connection</h1>
+    <button onclick="testConnection()">Test Connection</button>
+    <pre id="result"></pre>
+
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+
+        const SUPABASE_URL = "https://ginifvflddhsltzbroeo.supabase.co";
+        const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdpbmlmdmZsZGRoc2x0emJyb2VvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU0OTA4NzcsImV4cCI6MjA5MTA2Njg3N30.NaN-q4UjxXXCs5z3hFwqhIDyiZw-UNcS6--ZTJc5LI4";
+
+        const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        window.testConnection = async function() {
+            const resultEl = document.getElementById('result');
+            resultEl.textContent = 'Testing...';
+            
+            try {
+                // Test 1: Check if we can reach Supabase
+                const { data, error } = await supabase.auth.getSession();
+                
+                if (error) {
+                    resultEl.textContent = `Error: ${error.message}\n${JSON.stringify(error, null, 2)}`;
+                } else {
+                    resultEl.textContent = `Success! Connection works.\nSession: ${JSON.stringify(data, null, 2)}`;
+                }
+
+                // Test 2: Try to sign in
+                const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
+                    email: 'admin@lifebloom.com',
+                    password: 'admin123456'
+                });
+
+                if (signInError) {
+                    resultEl.textContent += `\n\nSign In Error: ${signInError.message}\n${JSON.stringify(signInError, null, 2)}`;
+                } else {
+                    resultEl.textContent += `\n\nSign In Success!\n${JSON.stringify(signInData, null, 2)}`;
+                }
+            } catch (err) {
+                resultEl.textContent = `Exception: ${err.message}\n${err.stack}`;
+            }
+        }
+    </script>
+</body>
+</html>

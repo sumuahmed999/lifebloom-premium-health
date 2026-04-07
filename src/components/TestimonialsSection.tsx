@@ -2,35 +2,35 @@ import { useState, useEffect } from "react";
 import { Star, Quote, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useStaggeredAnimation } from "@/hooks/useAnimations";
+import { supabase } from "@/integrations/supabase/client";
+import type { Testimonial } from "@/types/admin-content";
 
 const TestimonialsSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+  const [loading, setLoading] = useState(true);
   useStaggeredAnimation(200);
 
-  const testimonials = [
-    {
-      name: "Mrinmoy Jyoti Das",
-      role: "Regular Customer",
-      image: "https://cdn-icons-png.flaticon.com/512/9187/9187532.png",
-      rating: 5,
-      text: "LifeBloom always has the medicines I need. The service is quick and the staff is helpful",
-    },
-    {
-      name: "Sumu Ahmed",
-      role: "Patient",
-      image:
-        "https://res.cloudinary.com/di2chaikk/image/upload/v1754086034/sumu_o6u9rv.jpg",
-      rating: 5,
-      text: "LifeBloom Pharmacy is my go-to place for medicines. The staff is friendly, and they always explain how to use my medicines clearly.",
-    },
-    {
-      name: "Dibya Jyoti Nath",
-      role: "Family Patient",
-      image: "https://cdn-icons-png.flaticon.com/512/9187/9187532.png",
-      rating: 5,
-      text: "Best pharmacy in the area. Reasonable prices and supportive staff",
-    },
-  ];
+  useEffect(() => {
+    const fetchTestimonials = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('testimonials')
+          .select('*')
+          .eq('published', true)
+          .order('sort_order', { ascending: true });
+
+        if (error) throw error;
+        setTestimonials(data || []);
+      } catch (error) {
+        console.error('Error fetching testimonials:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTestimonials();
+  }, []);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -78,75 +78,97 @@ const TestimonialsSection = () => {
 
         {/* Testimonial Carousel */}
         <div className="relative max-w-4xl mx-auto stagger-animate animate-on-scroll stagger-2">
-          {/* Main Testimonial */}
-          <div className="glass-card p-8 lg:p-12 text-center hover-lift">
-            <div className="mb-8">
-              <Quote className="w-12 h-12 text-secondary/30 mx-auto mb-6" />
-              <p className="text-xl lg:text-2xl text-foreground leading-relaxed font-medium mb-8">
-                "{testimonials[currentIndex].text}"
-              </p>
-
-              {/* Rating */}
-              <div className="flex justify-center space-x-1 mb-6">
-                {[...Array(testimonials[currentIndex].rating)].map((_, i) => (
-                  <Star
-                    key={i}
-                    className="w-5 h-5 fill-yellow-400 text-yellow-400"
-                  />
-                ))}
-              </div>
+          {loading ? (
+            <div className="glass-card p-8 lg:p-12 text-center animate-pulse">
+              <div className="h-8 bg-muted rounded w-3/4 mx-auto mb-6"></div>
+              <div className="h-6 bg-muted rounded w-full mb-4"></div>
+              <div className="h-6 bg-muted rounded w-5/6 mx-auto"></div>
             </div>
+          ) : testimonials.length > 0 ? (
+            <>
+              {/* Main Testimonial */}
+              <div className="glass-card p-8 lg:p-12 text-center hover-lift">
+                <div className="mb-8">
+                  <Quote className="w-12 h-12 text-secondary/30 mx-auto mb-6" />
+                  <p className="text-xl lg:text-2xl text-foreground leading-relaxed font-medium mb-8">
+                    "{testimonials[currentIndex].testimonial_text}"
+                  </p>
 
-            {/* Patient Info */}
-            <div className="flex items-center justify-center space-x-4">
-              <img
-                src={testimonials[currentIndex].image}
-                alt={testimonials[currentIndex].name}
-                className="w-16 h-16 rounded-full object-cover ring-4 ring-secondary/20"
-              />
-              <div className="text-left">
-                <h4 className="text-lg font-semibold text-primary">
-                  {testimonials[currentIndex].name}
-                </h4>
-                <p className="text-muted-foreground">
-                  {testimonials[currentIndex].role}
-                </p>
+                  {/* Rating */}
+                  <div className="flex justify-center space-x-1 mb-6">
+                    {[...Array(testimonials[currentIndex].rating)].map((_, i) => (
+                      <Star
+                        key={i}
+                        className="w-5 h-5 fill-yellow-400 text-yellow-400"
+                      />
+                    ))}
+                  </div>
+                </div>
+
+                {/* Patient Info */}
+                <div className="flex items-center justify-center space-x-4">
+                  {testimonials[currentIndex].image_url && (
+                    <img
+                      src={testimonials[currentIndex].image_url}
+                      alt={testimonials[currentIndex].customer_name}
+                      className="w-16 h-16 rounded-full object-cover ring-4 ring-secondary/20"
+                    />
+                  )}
+                  <div className="text-left">
+                    <h4 className="text-lg font-semibold text-primary">
+                      {testimonials[currentIndex].customer_name}
+                    </h4>
+                    {testimonials[currentIndex].customer_role && (
+                      <p className="text-muted-foreground">
+                        {testimonials[currentIndex].customer_role}
+                      </p>
+                    )}
+                  </div>
+                </div>
               </div>
+
+              {/* Navigation Buttons */}
+              {testimonials.length > 1 && (
+                <>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="absolute left-4 top-1/2 -translate-y-1/2 glass-card hover:bg-primary hover:text-white"
+                    onClick={prevTestimonial}
+                  >
+                    <ChevronLeft className="w-5 h-5" />
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 glass-card hover:bg-primary hover:text-white"
+                    onClick={nextTestimonial}
+                  >
+                    <ChevronRight className="w-5 h-5" />
+                  </Button>
+
+                  {/* Dots Indicator */}
+                  <div className="flex justify-center space-x-2 mt-8">
+                    {testimonials.map((_, index) => (
+                      <button
+                        key={index}
+                        className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                          index === currentIndex
+                            ? "bg-primary w-8"
+                            : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
+                        }`}
+                        onClick={() => setCurrentIndex(index)}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
+            </>
+          ) : (
+            <div className="glass-card p-8 lg:p-12 text-center">
+              <p className="text-muted-foreground">No testimonials available</p>
             </div>
-          </div>
-
-          {/* Navigation Buttons */}
-          <Button
-            variant="outline"
-            size="icon"
-            className="absolute left-4 top-1/2 -translate-y-1/2 glass-card hover:bg-primary hover:text-white"
-            onClick={prevTestimonial}
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            className="absolute right-4 top-1/2 -translate-y-1/2 glass-card hover:bg-primary hover:text-white"
-            onClick={nextTestimonial}
-          >
-            <ChevronRight className="w-5 h-5" />
-          </Button>
-
-          {/* Dots Indicator */}
-          <div className="flex justify-center space-x-2 mt-8">
-            {testimonials.map((_, index) => (
-              <button
-                key={index}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  index === currentIndex
-                    ? "bg-primary w-8"
-                    : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
-                }`}
-                onClick={() => setCurrentIndex(index)}
-              />
-            ))}
-          </div>
+          )}
         </div>
 
         {/* Trust Indicators */}

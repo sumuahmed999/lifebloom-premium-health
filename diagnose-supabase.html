@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Supabase Diagnostics</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .test {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .success { background-color: #d4edda; border-color: #c3e6cb; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; }
+        .pending { background-color: #fff3cd; border-color: #ffeaa7; }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover { background-color: #0056b3; }
+        pre { background: #f4f4f4; padding: 10px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Supabase Connection Diagnostics</h1>
+    <button onclick="runAllTests()">Run All Tests</button>
+    
+    <div id="test1" class="test pending">
+        <h3>Test 1: Basic Network Connectivity</h3>
+        <p>Testing if we can reach Supabase URL...</p>
+        <pre id="result1">Waiting...</pre>
+    </div>
+
+    <div id="test2" class="test pending">
+        <h3>Test 2: Supabase REST API</h3>
+        <p>Testing REST API endpoint...</p>
+        <pre id="result2">Waiting...</pre>
+    </div>
+
+    <div id="test3" class="test pending">
+        <h3>Test 3: Supabase Auth API</h3>
+        <p>Testing Auth API endpoint...</p>
+        <pre id="result3">Waiting...</pre>
+    </div>
+
+    <div id="test4" class="test pending">
+        <h3>Test 4: Supabase Client Library</h3>
+        <p>Testing with @supabase/supabase-js...</p>
+        <pre id="result4">Waiting...</pre>
+    </div>
+
+    <div id="test5" class="test pending">
+        <h3>Test 5: Login Attempt</h3>
+        <p>Attempting to sign in with credentials...</p>
+        <pre id="result5">Waiting...</pre>
+    </div>
+
+    <script type="module">
+        const SUPABASE_URL = "https://ginifvflddhsltzbroeo.supabase.co";
+        const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdpbmlmdmZsZGRoc2x0emJyb2VvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU0OTA4NzcsImV4cCI6MjA5MTA2Njg3N30.NaN-q4UjxXXCs5z3hFwqhIDyiZw-UNcS6--ZTJc5LI4";
+
+        function setStatus(testId, status, message) {
+            const el = document.getElementById(testId);
+            el.className = `test ${status}`;
+            document.getElementById(`result${testId.slice(-1)}`).textContent = message;
+        }
+
+        // Test 1: Basic fetch to Supabase URL
+        async function test1() {
+            try {
+                const response = await fetch(SUPABASE_URL, {
+                    method: 'GET',
+                    mode: 'cors'
+                });
+                setStatus('test1', 'success', `✅ Success!\nStatus: ${response.status}\nURL is reachable`);
+                return true;
+            } catch (error) {
+                setStatus('test1', 'error', `❌ Failed!\nError: ${error.message}\n\nThis means your browser cannot reach Supabase.\nPossible causes:\n- Supabase project is paused\n- Network/firewall blocking\n- VPN interference\n- Internet connection issue`);
+                return false;
+            }
+        }
+
+        // Test 2: REST API endpoint
+        async function test2() {
+            try {
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/`, {
+                    method: 'GET',
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`
+                    }
+                });
+                setStatus('test2', 'success', `✅ Success!\nStatus: ${response.status}\nREST API is accessible`);
+                return true;
+            } catch (error) {
+                setStatus('test2', 'error', `❌ Failed!\nError: ${error.message}`);
+                return false;
+            }
+        }
+
+        // Test 3: Auth API endpoint
+        async function test3() {
+            try {
+                const response = await fetch(`${SUPABASE_URL}/auth/v1/health`, {
+                    method: 'GET',
+                    headers: {
+                        'apikey': SUPABASE_KEY
+                    }
+                });
+                const data = await response.json();
+                setStatus('test3', 'success', `✅ Success!\nStatus: ${response.status}\nAuth API Response: ${JSON.stringify(data, null, 2)}`);
+                return true;
+            } catch (error) {
+                setStatus('test3', 'error', `❌ Failed!\nError: ${error.message}`);
+                return false;
+            }
+        }
+
+        // Test 4: Supabase client library
+        async function test4() {
+            try {
+                const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
+                const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+                
+                const { data, error } = await supabase.auth.getSession();
+                
+                if (error) {
+                    setStatus('test4', 'error', `❌ Failed!\nError: ${error.message}\n${JSON.stringify(error, null, 2)}`);
+                    return false;
+                } else {
+                    setStatus('test4', 'success', `✅ Success!\nClient initialized and session checked\nSession: ${data.session ? 'Active' : 'None'}`);
+                    return true;
+                }
+            } catch (error) {
+                setStatus('test4', 'error', `❌ Failed!\nError: ${error.message}\nStack: ${error.stack}`);
+                return false;
+            }
+        }
+
+        // Test 5: Login attempt
+        async function test5() {
+            try {
+                const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
+                const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+                
+                const { data, error } = await supabase.auth.signInWithPassword({
+                    email: 'admin@lifebloom.com',
+                    password: 'admin123456'
+                });
+                
+                if (error) {
+                    setStatus('test5', 'error', `❌ Login Failed!\nError: ${error.message}\nStatus: ${error.status}\n${JSON.stringify(error, null, 2)}`);
+                    return false;
+                } else {
+                    setStatus('test5', 'success', `✅ Login Success!\nUser: ${data.user?.email}\nSession: Active`);
+                    return true;
+                }
+            } catch (error) {
+                setStatus('test5', 'error', `❌ Exception!\nError: ${error.message}\nStack: ${error.stack}`);
+                return false;
+            }
+        }
+
+        window.runAllTests = async function() {
+            console.log('Starting diagnostics...');
+            
+            const test1Result = await test1();
+            if (!test1Result) {
+                setStatus('test2', 'pending', 'Skipped (Test 1 failed)');
+                setStatus('test3', 'pending', 'Skipped (Test 1 failed)');
+                setStatus('test4', 'pending', 'Skipped (Test 1 failed)');
+                setStatus('test5', 'pending', 'Skipped (Test 1 failed)');
+                return;
+            }
+            
+            await test2();
+            await test3();
+            const test4Result = await test4();
+            
+            if (test4Result) {
+                await test5();
+            } else {
+                setStatus('test5', 'pending', 'Skipped (Test 4 failed)');
+            }
+        };
+
+        // Auto-run on load
+        setTimeout(() => runAllTests(), 500);
+    </script>
+</body>
+</html>

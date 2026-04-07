@@ -14,7 +14,223 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      services: {
+        Row: {
+          id: string
+          title: string
+          description: string
+          icon: string
+          features: string[]
+          color_scheme: string
+          published: boolean
+          sort_order: number
+          created_at: string
+          updated_at: string
+          created_by: string | null
+          updated_by: string | null
+        }
+        Insert: {
+          id?: string
+          title: string
+          description: string
+          icon: string
+          features?: string[]
+          color_scheme: string
+          published?: boolean
+          sort_order?: number
+          created_at?: string
+          updated_at?: string
+          created_by?: string | null
+          updated_by?: string | null
+        }
+        Update: {
+          id?: string
+          title?: string
+          description?: string
+          icon?: string
+          features?: string[]
+          color_scheme?: string
+          published?: boolean
+          sort_order?: number
+          created_at?: string
+          updated_at?: string
+          created_by?: string | null
+          updated_by?: string | null
+        }
+      }
+      testimonials: {
+        Row: {
+          id: string
+          customer_name: string
+          customer_role: string | null
+          image_url: string | null
+          rating: number
+          testimonial_text: string
+          published: boolean
+          sort_order: number
+          created_at: string
+          updated_at: string
+          created_by: string | null
+          updated_by: string | null
+        }
+        Insert: {
+          id?: string
+          customer_name: string
+          customer_role?: string | null
+          image_url?: string | null
+          rating: number
+          testimonial_text: string
+          published?: boolean
+          sort_order?: number
+          created_at?: string
+          updated_at?: string
+          created_by?: string | null
+          updated_by?: string | null
+        }
+        Update: {
+          id?: string
+          customer_name?: string
+          customer_role?: string | null
+          image_url?: string | null
+          rating?: number
+          testimonial_text?: string
+          published?: boolean
+          sort_order?: number
+          created_at?: string
+          updated_at?: string
+          created_by?: string | null
+          updated_by?: string | null
+        }
+      }
+      blog_posts: {
+        Row: {
+          id: string
+          title: string
+          excerpt: string
+          content: string
+          author: string
+          image_url: string | null
+          category: string
+          read_time: number
+          published: boolean
+          sort_order: number
+          created_at: string
+          updated_at: string
+          created_by: string | null
+          updated_by: string | null
+        }
+        Insert: {
+          id?: string
+          title: string
+          excerpt: string
+          content: string
+          author: string
+          image_url?: string | null
+          category: string
+          read_time: number
+          published?: boolean
+          sort_order?: number
+          created_at?: string
+          updated_at?: string
+          created_by?: string | null
+          updated_by?: string | null
+        }
+        Update: {
+          id?: string
+          title?: string
+          excerpt?: string
+          content?: string
+          author?: string
+          image_url?: string | null
+          category?: string
+          read_time?: number
+          published?: boolean
+          sort_order?: number
+          created_at?: string
+          updated_at?: string
+          created_by?: string | null
+          updated_by?: string | null
+        }
+      }
+      video_posts: {
+        Row: {
+          id: string
+          title: string
+          description: string
+          video_url: string
+          thumbnail_url: string | null
+          category: string
+          duration: number
+          published: boolean
+          sort_order: number
+          created_at: string
+          updated_at: string
+          created_by: string | null
+          updated_by: string | null
+        }
+        Insert: {
+          id?: string
+          title: string
+          description: string
+          video_url: string
+          thumbnail_url?: string | null
+          category: string
+          duration: number
+          published?: boolean
+          sort_order?: number
+          created_at?: string
+          updated_at?: string
+          created_by?: string | null
+          updated_by?: string | null
+        }
+        Update: {
+          id?: string
+          title?: string
+          description?: string
+          video_url?: string
+          thumbnail_url?: string | null
+          category?: string
+          duration?: number
+          published?: boolean
+          sort_order?: number
+          created_at?: string
+          updated_at?: string
+          created_by?: string | null
+          updated_by?: string | null
+        }
+      }
+      contact_info: {
+        Row: {
+          id: string
+          address: string
+          primary_phone: string
+          secondary_phone: string | null
+          email: string
+          operating_hours: Json
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          id?: string
+          address: string
+          primary_phone: string
+          secondary_phone?: string | null
+          email: string
+          operating_hours: Json
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          id?: string
+          address?: string
+          primary_phone?: string
+          secondary_phone?: string | null
+          email?: string
+          operating_hours?: Json
+          updated_at?: string
+          updated_by?: string | null
+        }
+      }
     }
     Views: {
       [_ in never]: never
