@@ -123,12 +123,12 @@ export function TestimonialForm({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="space-y-4 overflow-x-hidden">
       <Card>
-        <CardHeader>
-          <CardTitle>{initialData ? 'Edit Testimonial' : 'Create Testimonial'}</CardTitle>
+        <CardHeader className="px-4 py-3">
+          <CardTitle className="text-lg">{initialData ? 'Edit Testimonial' : 'Create Testimonial'}</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-4 px-4">
           {/* Customer Name */}
           <div className="space-y-2">
             <Label htmlFor="customer_name">
@@ -251,7 +251,7 @@ export function TestimonialForm({
       </Card>
 
       {/* Form Actions */}
-      <div className="flex justify-between">
+      <div className="flex flex-wrap justify-between gap-2">
         <Button
           type="button"
           variant="outline"
@@ -262,12 +262,7 @@ export function TestimonialForm({
           {showPreview ? 'Hide' : 'Show'} Preview
         </Button>
         <div className="flex gap-2">
-          <Button
-            type="button"
-            variant="outline"
-            onClick={onCancel}
-            disabled={submitting}
-          >
+          <Button type="button" variant="outline" onClick={onCancel} disabled={submitting}>
             Cancel
           </Button>
           <Button type="submit" disabled={submitting}>

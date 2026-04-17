@@ -1,8 +1,14 @@
 import { useState, useEffect } from "react";
-import { Menu, X, Phone, MapPin, Settings } from "lucide-react";
+import { Menu, X, Phone, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate, useLocation } from "react-router-dom";
 import lifebloomLogo from "@/assets/lifebloom-logo.png";
+
+interface NavItem {
+  label: string;
+  href: string;
+  isRoute?: boolean;
+}
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -18,9 +24,15 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string, isRoute?: boolean) => {
     e.preventDefault();
     setIsMobileMenuOpen(false);
+    
+    // If it's a route (like /blog), navigate directly
+    if (isRoute) {
+      navigate(href);
+      return;
+    }
     
     // If we're not on the home page, navigate to home first
     if (location.pathname !== '/') {
@@ -51,11 +63,12 @@ const Navbar = () => {
     }
   }, [location]);
 
-  const navItems = [
+  const navItems: NavItem[] = [
     { label: "Home", href: "#home" },
     { label: "About", href: "#about" },
     { label: "Services", href: "#services" },
     { label: "Why Choose Us", href: "#why-choose" },
+    { label: "Blog", href: "/blog", isRoute: true },
     { label: "Contact", href: "#contact" },
   ];
 
@@ -72,7 +85,7 @@ const Navbar = () => {
             <img src={lifebloomLogo} alt="LifeBloom" className="w-12 h-12" />
             <div>
               <h1 className="text-2xl font-display font-bold gradient-text">
-                Lifebloom
+                LifeBloom
               </h1>
               <p className="text-xs text-muted-foreground">
                 Prevent.Preserve.Prosper
@@ -86,7 +99,7 @@ const Navbar = () => {
               <a
                 key={item.label}
                 href={item.href}
-                onClick={(e) => handleNavClick(e, item.href)}
+                onClick={(e) => handleNavClick(e, item.href, item.isRoute)}
                 className="text-foreground hover:text-primary transition-colors duration-300 font-medium cursor-pointer"
               >
                 {item.label}
@@ -136,7 +149,7 @@ const Navbar = () => {
                 <a
                   key={item.label}
                   href={item.href}
-                  onClick={(e) => handleNavClick(e, item.href)}
+                  onClick={(e) => handleNavClick(e, item.href, item.isRoute)}
                   className="block text-foreground hover:text-primary transition-colors duration-300 font-medium py-2 cursor-pointer"
                 >
                   {item.label}

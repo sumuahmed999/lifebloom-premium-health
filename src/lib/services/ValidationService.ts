@@ -381,4 +381,60 @@ export class ValidationService {
       errors,
     };
   }
+
+  /**
+   * Validate ContactCard data
+   * Requirements: 13.1, 13.2, 13.3, 13.4, 13.5, 13.6, 13.7
+   * 
+   * @param data - Partial ContactCard data to validate
+   * @returns ValidationResult with field-specific errors
+   */
+  static validateContactCard(data: Partial<any>): ValidationResult {
+    const errors: Record<string, string> = {};
+
+    // Title validation (required, 1-100 characters)
+    if (!data.title || data.title.trim() === '') {
+      errors.title = 'Title is required';
+    } else if (data.title.length < 1) {
+      errors.title = 'Title must be at least 1 character';
+    } else if (data.title.length > 100) {
+      errors.title = 'Title must be 100 characters or less';
+    }
+
+    // Short description validation (max 200 characters)
+    if (data.short_description && data.short_description.length > 200) {
+      errors.short_description = 'Description must be 200 characters or less';
+    }
+
+    // Detailed content validation (max 5000 characters)
+    if (data.detailed_content && data.detailed_content.length > 5000) {
+      errors.detailed_content = 'Content must be 5000 characters or less';
+    }
+
+    // CTA link validation (must match protocol pattern)
+    if (data.cta_link && data.cta_link.trim() !== '') {
+      const ctaLinkPattern = /^(tel:|mailto:|https:).+/;
+      if (!ctaLinkPattern.test(data.cta_link)) {
+        errors.cta_link = 'Link must start with tel:, mailto:, or https:';
+      }
+    }
+
+    // Icon validation (required)
+    if (!data.icon || data.icon.trim() === '') {
+      errors.icon = 'Icon is required';
+    }
+
+    // Color theme validation (required, must be valid theme)
+    const validThemes = ['primary-blue', 'secondary-green', 'accent-teal', 'neutral-gray'];
+    if (!data.color_theme || data.color_theme.trim() === '') {
+      errors.color_theme = 'Color theme is required';
+    } else if (!validThemes.includes(data.color_theme)) {
+      errors.color_theme = 'Invalid color theme';
+    }
+
+    return {
+      valid: Object.keys(errors).length === 0,
+      errors,
+    };
+  }
 }

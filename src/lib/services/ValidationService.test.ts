@@ -292,3 +292,418 @@ describe('ValidationService', () => {
     });
   });
 });
+
+  describe('validateContactCard', () => {
+    it('should validate complete contact card data', () => {
+      const contactCard = {
+        icon: 'Phone',
+        title: 'Call Us',
+        short_description: 'Get in touch with our team',
+        detailed_content: 'Call us anytime during business hours',
+        cta_button_text: 'Call Now',
+        cta_link: 'tel:+1234567890',
+        color_theme: 'primary-blue',
+      };
+      const result = ValidationService.validateContactCard(contactCard);
+      expect(result.valid).toBe(true);
+      expect(Object.keys(result.errors).length).toBe(0);
+    });
+
+    describe('title validation', () => {
+      it('should reject empty title', () => {
+        const contactCard = {
+          icon: 'Phone',
+          title: '',
+          color_theme: 'primary-blue',
+        };
+        const result = ValidationService.validateContactCard(contactCard);
+        expect(result.valid).toBe(false);
+        expect(result.errors.title).toBe('Title is required');
+      });
+
+      it('should reject title with only whitespace', () => {
+        const contactCard = {
+          icon: 'Phone',
+          title: '   ',
+          color_theme: 'primary-blue',
+        };
+        const result = ValidationService.validateContactCard(contactCard);
+        expect(result.valid).toBe(false);
+        expect(result.errors.title).toBe('Title is required');
+      });
+
+      it('should accept title with exactly 1 character', () => {
+        const contactCard = {
+          icon: 'Phone',
+          title: 'A',
+          color_theme: 'primary-blue',
+        };
+        const result = ValidationService.validateContactCard(contactCard);
+        expect(result.errors.title).toBeUndefined();
+      });
+
+      it('should accept title with exactly 100 characters', () => {
+        const contactCard = {
+          icon: 'Phone',
+          title: 'A'.repeat(100),
+          color_theme: 'primary-blue',
+        };
+        const result = ValidationService.validateContactCard(contactCard);
+        expect(result.errors.title).toBeUndefined();
+      });
+
+      it('should reject title with 101 characters', () => {
+        const contactCard = {
+          icon: 'Phone',
+          title: 'A'.repeat(101),
+          color_theme: 'primary-blue',
+        };
+        const result = ValidationService.validateContactCard(contactCard);
+        expect(result.valid).toBe(false);
+        expect(result.errors.title).toBe('Title must be 100 characters or less');
+      });
+
+      it('should reject title exceeding 100 characters', () => {
+        const contactCard = {
+          icon: 'Phone',
+          title: 'A'.repeat(150),
+          color_theme: 'primary-blue',
+        };
+        const result = ValidationService.validateContactCard(contactCard);
+        expect(result.valid).toBe(false);
+        expect(result.errors.title).toBe('Title must be 100 characters or less');
+      });
+    });
+
+    describe('short_description validation', () => {
+      it('should accept empty short_description', () => {
+        const contactCard = {
+          icon: 'Phone',
+          title: 'Call Us',
+          short_description: '',
+          color_theme: 'primary-blue',
+        };
+        const result = ValidationService.validateContactCard(contactCard);
+        expect(result.errors.short_description).toBeUndefined();
+      });
+
+      it('should accept short_description with exactly 200 characters', () => {
+        const contactCard = {
+          icon: 'Phone',
+          title: 'Call Us',
+          short_description: 'A'.repeat(200),
+          color_theme: 'primary-blue',
+        };
+        const result = ValidationService.validateContactCard(contactCard);
+        expect(result.errors.short_description).toBeUndefined();
+      });
+
+      it('should reject short_description with 201 characters', () => {
+        const contactCard = {
+          icon: 'Phone',
+          title: 'Call Us',
+          short_description: 'A'.repeat(201),
+          color_theme: 'primary-blue',
+        };
+        const result = ValidationService.validateContactCard(contactCard);
+        expect(result.valid).toBe(false);
+        expect(result.errors.short_description).toBe('Description must be 200 characters or less');
+      });
+
+      it('should reject short_description exceeding 200 characters', () => {
+        const contactCard = {
+          icon: 'Phone',
+          title: 'Call Us',
+          short_description: 'A'.repeat(300),
+          color_theme: 'primary-blue',
+        };
+        const result = ValidationService.validateContactCard(contactCard);
+        expect(result.valid).toBe(false);
+        expect(result.errors.short_description).toBe('Description must be 200 characters or less');
+      });
+    });
+
+    describe('detailed_content validation', () => {
+      it('should accept empty detailed_content', () => {
+        const contactCard = {
+          icon: 'Phone',
+          title: 'Call Us',
+          detailed_content: '',
+          color_theme: 'primary-blue',
+        };
+        const result = ValidationService.validateContactCard(contactCard);
+        expect(result.errors.detailed_content).toBeUndefined();
+      });
+
+      it('should accept detailed_content with exactly 5000 characters', () => {
+        const contactCard = {
+          icon: 'Phone',
+          title: 'Call Us',
+          detailed_content: 'A'.repeat(5000),
+          color_theme: 'primary-blue',
+        };
+        const result = ValidationService.validateContactCard(contactCard);
+        expect(result.errors.detailed_content).toBeUndefined();
+      });
+
+      it('should reject detailed_content with 5001 characters', () => {
+        const contactCard = {
+          icon: 'Phone',
+          title: 'Call Us',
+          detailed_content: 'A'.repeat(5001),
+          color_theme: 'primary-blue',
+        };
+        const result = ValidationService.validateContactCard(contactCard);
+        expect(result.valid).toBe(false);
+        expect(result.errors.detailed_content).toBe('Content must be 5000 characters or less');
+      });
+
+      it('should reject detailed_content exceeding 5000 characters', () => {
+        const contactCard = {
+          icon: 'Phone',
+          title: 'Call Us',
+          detailed_content: 'A'.repeat(6000),
+          color_theme: 'primary-blue',
+        };
+        const result = ValidationService.validateContactCard(contactCard);
+        expect(result.valid).toBe(false);
+        expect(result.errors.detailed_content).toBe('Content must be 5000 characters or less');
+      });
+    });
+
+    describe('cta_link validation', () => {
+      it('should accept empty cta_link', () => {
+        const contactCard = {
+          icon: 'Phone',
+          title: 'Call Us',
+          cta_link: '',
+          color_theme: 'primary-blue',
+        };
+        const result = ValidationService.validateContactCard(contactCard);
+        expect(result.errors.cta_link).toBeUndefined();
+      });
+
+      it('should accept valid tel: link', () => {
+        const contactCard = {
+          icon: 'Phone',
+          title: 'Call Us',
+          cta_link: 'tel:+1234567890',
+          color_theme: 'primary-blue',
+        };
+        const result = ValidationService.validateContactCard(contactCard);
+        expect(result.errors.cta_link).toBeUndefined();
+      });
+
+      it('should accept valid mailto: link', () => {
+        const contactCard = {
+          icon: 'Mail',
+          title: 'Email Us',
+          cta_link: 'mailto:contact@example.com',
+          color_theme: 'primary-blue',
+        };
+        const result = ValidationService.validateContactCard(contactCard);
+        expect(result.errors.cta_link).toBeUndefined();
+      });
+
+      it('should accept valid https: link', () => {
+        const contactCard = {
+          icon: 'MapPin',
+          title: 'Visit Us',
+          cta_link: 'https://maps.google.com/location',
+          color_theme: 'primary-blue',
+        };
+        const result = ValidationService.validateContactCard(contactCard);
+        expect(result.errors.cta_link).toBeUndefined();
+      });
+
+      it('should reject http: link (not https:)', () => {
+        const contactCard = {
+          icon: 'MapPin',
+          title: 'Visit Us',
+          cta_link: 'http://example.com',
+          color_theme: 'primary-blue',
+        };
+        const result = ValidationService.validateContactCard(contactCard);
+        expect(result.valid).toBe(false);
+        expect(result.errors.cta_link).toBe('Link must start with tel:, mailto:, or https:');
+      });
+
+      it('should reject ftp: link', () => {
+        const contactCard = {
+          icon: 'MapPin',
+          title: 'Visit Us',
+          cta_link: 'ftp://example.com',
+          color_theme: 'primary-blue',
+        };
+        const result = ValidationService.validateContactCard(contactCard);
+        expect(result.valid).toBe(false);
+        expect(result.errors.cta_link).toBe('Link must start with tel:, mailto:, or https:');
+      });
+
+      it('should reject link without protocol', () => {
+        const contactCard = {
+          icon: 'MapPin',
+          title: 'Visit Us',
+          cta_link: 'example.com',
+          color_theme: 'primary-blue',
+        };
+        const result = ValidationService.validateContactCard(contactCard);
+        expect(result.valid).toBe(false);
+        expect(result.errors.cta_link).toBe('Link must start with tel:, mailto:, or https:');
+      });
+
+      it('should reject link with only protocol (no content after)', () => {
+        const contactCard = {
+          icon: 'Phone',
+          title: 'Call Us',
+          cta_link: 'tel:',
+          color_theme: 'primary-blue',
+        };
+        const result = ValidationService.validateContactCard(contactCard);
+        expect(result.valid).toBe(false);
+        expect(result.errors.cta_link).toBe('Link must start with tel:, mailto:, or https:');
+      });
+    });
+
+    describe('icon validation', () => {
+      it('should reject empty icon', () => {
+        const contactCard = {
+          icon: '',
+          title: 'Call Us',
+          color_theme: 'primary-blue',
+        };
+        const result = ValidationService.validateContactCard(contactCard);
+        expect(result.valid).toBe(false);
+        expect(result.errors.icon).toBe('Icon is required');
+      });
+
+      it('should reject icon with only whitespace', () => {
+        const contactCard = {
+          icon: '   ',
+          title: 'Call Us',
+          color_theme: 'primary-blue',
+        };
+        const result = ValidationService.validateContactCard(contactCard);
+        expect(result.valid).toBe(false);
+        expect(result.errors.icon).toBe('Icon is required');
+      });
+
+      it('should accept valid icon name', () => {
+        const contactCard = {
+          icon: 'Phone',
+          title: 'Call Us',
+          color_theme: 'primary-blue',
+        };
+        const result = ValidationService.validateContactCard(contactCard);
+        expect(result.errors.icon).toBeUndefined();
+      });
+    });
+
+    describe('color_theme validation', () => {
+      it('should reject empty color_theme', () => {
+        const contactCard = {
+          icon: 'Phone',
+          title: 'Call Us',
+          color_theme: '',
+        };
+        const result = ValidationService.validateContactCard(contactCard);
+        expect(result.valid).toBe(false);
+        expect(result.errors.color_theme).toBe('Color theme is required');
+      });
+
+      it('should reject color_theme with only whitespace', () => {
+        const contactCard = {
+          icon: 'Phone',
+          title: 'Call Us',
+          color_theme: '   ',
+        };
+        const result = ValidationService.validateContactCard(contactCard);
+        expect(result.valid).toBe(false);
+        expect(result.errors.color_theme).toBe('Color theme is required');
+      });
+
+      it('should accept primary-blue theme', () => {
+        const contactCard = {
+          icon: 'Phone',
+          title: 'Call Us',
+          color_theme: 'primary-blue',
+        };
+        const result = ValidationService.validateContactCard(contactCard);
+        expect(result.errors.color_theme).toBeUndefined();
+      });
+
+      it('should accept secondary-green theme', () => {
+        const contactCard = {
+          icon: 'Phone',
+          title: 'Call Us',
+          color_theme: 'secondary-green',
+        };
+        const result = ValidationService.validateContactCard(contactCard);
+        expect(result.errors.color_theme).toBeUndefined();
+      });
+
+      it('should accept accent-teal theme', () => {
+        const contactCard = {
+          icon: 'Phone',
+          title: 'Call Us',
+          color_theme: 'accent-teal',
+        };
+        const result = ValidationService.validateContactCard(contactCard);
+        expect(result.errors.color_theme).toBeUndefined();
+      });
+
+      it('should accept neutral-gray theme', () => {
+        const contactCard = {
+          icon: 'Phone',
+          title: 'Call Us',
+          color_theme: 'neutral-gray',
+        };
+        const result = ValidationService.validateContactCard(contactCard);
+        expect(result.errors.color_theme).toBeUndefined();
+      });
+
+      it('should reject invalid color_theme', () => {
+        const contactCard = {
+          icon: 'Phone',
+          title: 'Call Us',
+          color_theme: 'invalid-theme',
+        };
+        const result = ValidationService.validateContactCard(contactCard);
+        expect(result.valid).toBe(false);
+        expect(result.errors.color_theme).toBe('Invalid color theme');
+      });
+
+      it('should reject color_theme with wrong case', () => {
+        const contactCard = {
+          icon: 'Phone',
+          title: 'Call Us',
+          color_theme: 'Primary-Blue',
+        };
+        const result = ValidationService.validateContactCard(contactCard);
+        expect(result.valid).toBe(false);
+        expect(result.errors.color_theme).toBe('Invalid color theme');
+      });
+    });
+
+    describe('multiple validation errors', () => {
+      it('should return all validation errors when multiple fields are invalid', () => {
+        const contactCard = {
+          icon: '',
+          title: '',
+          short_description: 'A'.repeat(201),
+          detailed_content: 'A'.repeat(5001),
+          cta_link: 'invalid-link',
+          color_theme: 'invalid-theme',
+        };
+        const result = ValidationService.validateContactCard(contactCard);
+        expect(result.valid).toBe(false);
+        expect(result.errors.icon).toBeDefined();
+        expect(result.errors.title).toBeDefined();
+        expect(result.errors.short_description).toBeDefined();
+        expect(result.errors.detailed_content).toBeDefined();
+        expect(result.errors.cta_link).toBeDefined();
+        expect(result.errors.color_theme).toBeDefined();
+      });
+    });
+  });
+});

@@ -44,7 +44,7 @@ const Footer = () => {
   return (
     <footer className="bg-gradient-to-br from-primary/5 to-secondary/5 border-t border-border/50">
       <div className="container mx-auto px-4 py-16">
-        <div className="grid lg:grid-cols-4 gap-8 mb-12">
+        <div className="grid lg:grid-cols-3 gap-8 mb-12">
           {/* Company Info */}
           <div className="lg:col-span-1 space-y-6">
             <div className="flex items-center space-x-3">
@@ -58,7 +58,7 @@ const Footer = () => {
                 </p>
               </div>
             </div>
-
+      
             <p className="text-muted-foreground leading-relaxed">
               Your trusted partner in healthcare. We provide comprehensive
               medical solutions with a focus on quality, accessibility, and
@@ -115,48 +115,23 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Newsletter & Social */}
+          {/* Social Links */}
           <div className="space-y-6">
-            <h4 className="text-lg font-semibold text-primary">
-              Stay Connected
-            </h4>
-            <p className="text-muted-foreground text-sm">
-              Subscribe to our newsletter for health tips and updates.
-            </p>
-
-            <div className="space-y-3">
-              <div className="flex">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="flex-1 input-premium rounded-r-none border-r-0"
-                />
-                <button className="btn-premium rounded-l-none px-4">
-                  <Mail className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-
-            {/* Social Links */}
-            <div>
-              <p className="text-sm font-medium text-foreground mb-3">
-                Follow Us
-              </p>
-              <div className="flex space-x-3">
-                {socialLinks.map((social, index) => {
-                  const Icon = social.icon;
-                  return (
-                    <a
-                      key={index}
-                      href={social.href}
-                      aria-label={social.label}
-                      className="w-10 h-10 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl flex items-center justify-center text-muted-foreground hover:text-secondary hover:bg-secondary/10 transition-all duration-300"
-                    >
-                      <Icon className="w-5 h-5" />
-                    </a>
-                  );
-                })}
-              </div>
+            <h4 className="text-lg font-semibold text-primary">Follow Us</h4>
+            <div className="flex space-x-3">
+              {socialLinks.map((social, index) => {
+                const Icon = social.icon;
+                return (
+                  <a
+                    key={index}
+                    href={social.href}
+                    aria-label={social.label}
+                    className="w-10 h-10 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl flex items-center justify-center text-muted-foreground hover:text-secondary hover:bg-secondary/10 transition-all duration-300"
+                  >
+                    <Icon className="w-5 h-5" />
+                  </a>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -165,18 +140,18 @@ const Footer = () => {
         <div className="border-t border-border/50 pt-8">
           <div className="flex flex-col lg:flex-row justify-between items-center space-y-4 lg:space-y-0">
             <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-              <span>© 2025 LifeBloom. All rights reserved.</span>
+              <span>© {new Date().getFullYear()} LifeBloom. All rights reserved.</span>
             </div>
 
             <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-              <span>Developed by </span>
+              <span>Powered by</span>
               <a
-                href="https://sumuahmed9.netlify.app/"
+                href="https://softnetix.in/"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <span className="italic text-primary hover:underline">
-                  Sumu Ahmed
+                <span className="text-primary hover:underline">
+                 Softnetix
                 </span>
               </a>
             </div>

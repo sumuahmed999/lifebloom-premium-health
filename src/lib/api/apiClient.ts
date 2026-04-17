@@ -343,8 +343,11 @@ export async function create<T>(
   try {
     const authState = await getAuthState();
     
-    // Add created_by if authenticated
-    const recordData = authState.isAuthenticated
+    // Tables that support audit fields (created_by, updated_by)
+    const tablesWithAuditFields = ['services', 'testimonials', 'blog_posts', 'video_posts'];
+    
+    // Add created_by only if the table supports it and user is authenticated
+    const recordData = (authState.isAuthenticated && tablesWithAuditFields.includes(table))
       ? { ...data, created_by: authState.user?.id }
       : data;
 
@@ -387,8 +390,11 @@ export async function update<T>(
   try {
     const authState = await getAuthState();
     
-    // Add updated_by if authenticated
-    const recordData = authState.isAuthenticated
+    // Tables that support audit fields (created_by, updated_by)
+    const tablesWithAuditFields = ['services', 'testimonials', 'blog_posts', 'video_posts'];
+    
+    // Add updated_by only if the table supports it and user is authenticated
+    const recordData = (authState.isAuthenticated && tablesWithAuditFields.includes(table))
       ? { ...updates, updated_by: authState.user?.id }
       : updates;
 

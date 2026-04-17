@@ -38,6 +38,10 @@ interface FormData {
   secondary_phone: string;
   email: string;
   operating_hours: OperatingHours;
+  section_heading: string;
+  section_subtitle: string;
+  content_title: string;
+  content_description: string;
 }
 
 interface FormErrors {
@@ -73,6 +77,10 @@ export function ContactInfoForm({
     primary_phone: initialData?.primary_phone || '',
     secondary_phone: initialData?.secondary_phone || '',
     email: initialData?.email || '',
+    section_heading: initialData?.section_heading || 'Contact LifeBloom',
+    section_subtitle: initialData?.section_subtitle || 'Ready to experience premium healthcare? Get in touch with our team for consultations, appointments, or any questions about our services.',
+    content_title: initialData?.content_title || 'Get in Touch',
+    content_description: initialData?.content_description || 'We\'re here to help you with all your healthcare needs. Reach out to us through any of the following channels, and our dedicated team will assist you promptly.',
     operating_hours: initialData?.operating_hours || {
       Monday: { open: '09:00', close: '17:00', closed: false },
       Tuesday: { open: '09:00', close: '17:00', closed: false },
@@ -166,6 +174,84 @@ export function ContactInfoForm({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      {/* Section Content */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Section Content</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {/* Section Heading */}
+          <div className="space-y-2">
+            <Label htmlFor="section_heading">
+              Section Heading <span className="text-destructive">*</span>
+            </Label>
+            <Input
+              id="section_heading"
+              value={formData.section_heading}
+              onChange={(e) => handleChange('section_heading', e.target.value)}
+              placeholder="Contact LifeBloom"
+              disabled={submitting}
+            />
+            <p className="text-xs text-muted-foreground">
+              Main heading displayed at the top of the contact section
+            </p>
+          </div>
+
+          {/* Section Subtitle */}
+          <div className="space-y-2">
+            <Label htmlFor="section_subtitle">
+              Section Subtitle <span className="text-destructive">*</span>
+            </Label>
+            <Textarea
+              id="section_subtitle"
+              value={formData.section_subtitle}
+              onChange={(e) => handleChange('section_subtitle', e.target.value)}
+              placeholder="Ready to experience premium healthcare?..."
+              rows={3}
+              disabled={submitting}
+            />
+            <p className="text-xs text-muted-foreground">
+              Subtitle text displayed below the main heading
+            </p>
+          </div>
+
+          {/* Content Title */}
+          <div className="space-y-2">
+            <Label htmlFor="content_title">
+              Content Title <span className="text-destructive">*</span>
+            </Label>
+            <Input
+              id="content_title"
+              value={formData.content_title}
+              onChange={(e) => handleChange('content_title', e.target.value)}
+              placeholder="Get in Touch"
+              disabled={submitting}
+            />
+            <p className="text-xs text-muted-foreground">
+              Title displayed above the contact information cards
+            </p>
+          </div>
+
+          {/* Content Description */}
+          <div className="space-y-2">
+            <Label htmlFor="content_description">
+              Content Description <span className="text-destructive">*</span>
+            </Label>
+            <Textarea
+              id="content_description"
+              value={formData.content_description}
+              onChange={(e) => handleChange('content_description', e.target.value)}
+              placeholder="We're here to help you..."
+              rows={3}
+              disabled={submitting}
+            />
+            <p className="text-xs text-muted-foreground">
+              Description text displayed below the content title
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+
       <Card>
         <CardHeader>
           <CardTitle>Contact Information</CardTitle>

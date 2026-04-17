@@ -24,6 +24,8 @@ export const CONTENT_TABLES = {
   blogs: 'blog_posts',
   videos: 'video_posts',
   contact: 'contact_info',
+  get_in_touch: 'get_in_touch_content',
+  contact_cards: 'contact_cards',
 } as const;
 
 /**
@@ -137,6 +139,9 @@ export class ContentService {
       // Apply filters
       if (filters?.published !== undefined) {
         options.filters = { ...options.filters, published: filters.published };
+      }
+      if (filters?.status !== undefined) {
+        options.filters = { ...options.filters, status: filters.status };
       }
       if (filters?.category) {
         options.filters = { ...options.filters, category: filters.category };
@@ -267,6 +272,9 @@ export class ContentService {
 
   /**
    * Update the sort order of multiple items
+   * Uses a two-phase approach to avoid UNIQUE constraint violations:
+   * 1. Set all items to negative sort_order values
+   * 2. Update to final positive sort_order values
    */
   static async updateOrder(
     contentType: keyof typeof CONTENT_TABLES,
@@ -284,20 +292,32 @@ export class ContentService {
 
     return withRetry(async () => {
       try {
-        // Update each item's sort_order individually
-        // Note: This could be optimized with a batch update in the future
-        const updatePromises = items.map(item =>
+        // Phase 1: Set all items to negative sort_order values to avoid conflicts
+        const phase1Promises = items.map((item, index) =>
+          apiClient.update(table, item.id, { sort_order: -(index + 1) })
+        );
+
+        const phase1Results = await Promise.all(phase1Promises);
+        const phase1Failed = phase1Results.find(result => !result.success);
+        if (phase1Failed) {
+          return {
+            data: null,
+            error: phase1Failed.error,
+            success: false,
+          };
+        }
+
+        // Phase 2: Update to final positive sort_order values
+        const phase2Promises = items.map(item =>
           apiClient.update(table, item.id, { sort_order: item.sort_order })
         );
 
-        const results = await Promise.all(updatePromises);
-
-        // Check if any updates failed
-        const failedUpdate = results.find(result => !result.success);
-        if (failedUpdate) {
+        const phase2Results = await Promise.all(phase2Promises);
+        const phase2Failed = phase2Results.find(result => !result.success);
+        if (phase2Failed) {
           return {
             data: null,
-            error: failedUpdate.error,
+            error: phase2Failed.error,
             success: false,
           };
         }
@@ -318,6 +338,128 @@ export class ContentService {
         };
       }
     });
+  }
+
+  /**
+   * Get the next available sort_order value for a content type
+   * Returns 0 if no items exist, otherwise returns max sort_order + 1
+   */
+  static async getNextSortOrder(
+    contentType: keyof typeof CONTENT_TABLES
+  ): Promise<ApiResponse<number>> {
+    try {
+      const response = await this.getAll<{ sort_order: number }>(contentType);
+      
+      if (!response.success || !response.data) {
+        // If fetch fails, return error
+        return {
+          data: null,
+          error: response.error || {
+            message: 'Failed to fetch items for sort order calculation',
+            code: 'SORT_ORDER_FETCH_ERROR',
+          },
+          success: false,
+        };
+      }
+
+      // If no items exist, start at 0
+      if (response.data.length === 0) {
+        return {
+          data: 0,
+          error: null,
+          success: true,
+        };
+      }
+
+      // Find max sort_order and add 1
+      const maxSortOrder = Math.max(...response.data.map(item => item.sort_order), -1);
+      return {
+        data: maxSortOrder + 1,
+        error: null,
+        success: true,
+      };
+    } catch (error) {
+      return {
+        data: null,
+        error: {
+          message: error instanceof Error ? error.message : 'Failed to calculate next sort order',
+          code: 'SORT_ORDER_CALC_ERROR',
+        },
+        success: false,
+      };
+    }
+  }
+
+  /**
+   * Reorder items by moving an item up or down
+   * Swaps sort_order values with the adjacent item
+   */
+  static async reorderCards<T extends { id: string; sort_order: number }>(
+    contentType: keyof typeof CONTENT_TABLES,
+    cardId: string,
+    direction: 'up' | 'down',
+    allCards: T[]
+  ): Promise<ApiResponse<void>> {
+    try {
+      // Find the current card
+      const currentIndex = allCards.findIndex(card => card.id === cardId);
+      
+      if (currentIndex === -1) {
+        return {
+          data: null,
+          error: {
+            message: 'Card not found',
+            code: 'CARD_NOT_FOUND',
+          },
+          success: false,
+        };
+      }
+
+      // Check boundaries
+      if (direction === 'up' && currentIndex === 0) {
+        return {
+          data: null,
+          error: {
+            message: 'Card is already first',
+            code: 'ALREADY_FIRST',
+          },
+          success: false,
+        };
+      }
+
+      if (direction === 'down' && currentIndex === allCards.length - 1) {
+        return {
+          data: null,
+          error: {
+            message: 'Card is already last',
+            code: 'ALREADY_LAST',
+          },
+          success: false,
+        };
+      }
+
+      // Get the card to swap with
+      const targetIndex = direction === 'up' ? currentIndex - 1 : currentIndex + 1;
+      const currentCard = allCards[currentIndex];
+      const targetCard = allCards[targetIndex];
+
+      // Swap sort_order values
+      const updates = [
+        { id: currentCard.id, sort_order: targetCard.sort_order },
+        { id: targetCard.id, sort_order: currentCard.sort_order },
+      ];
+
+      return await this.updateOrder(contentType, updates);
+    } catch (error) {
+      return {
+        data: null,
+        error: {
+          message: error instanceof Error ? error.message : 'Failed to reorder cards',
+          code: 'REORDER_ERROR',
+        },
+        success: false,
+      };
+    }
   }
 
   /**

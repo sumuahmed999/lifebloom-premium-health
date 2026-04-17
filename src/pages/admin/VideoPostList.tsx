@@ -304,7 +304,7 @@ export function VideoPostList() {
 
       {/* Form Dialog */}
       <Dialog open={showForm} onOpenChange={setShowForm}>
-        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="w-[95vw] max-w-3xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>
               {editingVideoPost ? 'Edit Video Post' : 'Create Video Post'}
@@ -326,3 +326,4 @@ export function VideoPostList() {
 }
 
 export default VideoPostList;
+

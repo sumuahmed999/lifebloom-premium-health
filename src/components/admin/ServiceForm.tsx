@@ -142,7 +142,7 @@ export function ServiceForm({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="space-y-6 overflow-x-hidden">
       <Card>
         <CardHeader>
           <CardTitle>{initialData ? 'Edit Service' : 'Create Service'}</CardTitle>
@@ -327,7 +327,7 @@ export function ServiceForm({
       </Card>
 
       {/* Form Actions */}
-      <div className="flex justify-between">
+      <div className="flex flex-wrap justify-between gap-2">
         <Button
           type="button"
           variant="outline"

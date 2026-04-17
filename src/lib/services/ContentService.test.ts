@@ -42,6 +42,8 @@ describe('ContentService', () => {
       expect(CONTENT_TABLES.blogs).toBe('blog_posts');
       expect(CONTENT_TABLES.videos).toBe('video_posts');
       expect(CONTENT_TABLES.contact).toBe('contact_info');
+      expect(CONTENT_TABLES.get_in_touch).toBe('get_in_touch_content');
+      expect(CONTENT_TABLES.contact_cards).toBe('contact_cards');
     });
   });
 
@@ -577,6 +579,195 @@ describe('ContentService', () => {
 
       expect(result.success).toBe(false);
       expect(apiClient.apiClient.create).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('getNextSortOrder', () => {
+    it('should return 0 when no items exist', async () => {
+      vi.mocked(apiClient.apiClient.fetchAll).mockResolvedValue({
+        data: [],
+        error: null,
+        success: true,
+      });
+
+      const result = await ContentService.getNextSortOrder('contact_cards');
+
+      expect(result.success).toBe(true);
+      expect(result.data).toBe(0);
+    });
+
+    it('should return max sort_order + 1 when items exist', async () => {
+      const mockCards = [
+        { id: '1', sort_order: 0 },
+        { id: '2', sort_order: 1 },
+        { id: '3', sort_order: 2 },
+      ];
+
+      vi.mocked(apiClient.apiClient.fetchAll).mockResolvedValue({
+        data: mockCards,
+        error: null,
+        success: true,
+      });
+
+      const result = await ContentService.getNextSortOrder('contact_cards');
+
+      expect(result.success).toBe(true);
+      expect(result.data).toBe(3);
+    });
+
+    it('should handle non-sequential sort orders', async () => {
+      const mockCards = [
+        { id: '1', sort_order: 0 },
+        { id: '2', sort_order: 5 },
+        { id: '3', sort_order: 10 },
+      ];
+
+      vi.mocked(apiClient.apiClient.fetchAll).mockResolvedValue({
+        data: mockCards,
+        error: null,
+        success: true,
+      });
+
+      const result = await ContentService.getNextSortOrder('contact_cards');
+
+      expect(result.success).toBe(true);
+      expect(result.data).toBe(11);
+    });
+
+    it('should handle fetch errors', async () => {
+      const mockError = {
+        message: 'Database error',
+        code: 'DB_ERROR',
+      };
+
+      vi.mocked(apiClient.apiClient.fetchAll).mockResolvedValue({
+        data: null,
+        error: mockError,
+        success: false,
+      });
+
+      const result = await ContentService.getNextSortOrder('contact_cards');
+
+      expect(result.success).toBe(false);
+      expect(result.error).toBeDefined();
+    });
+  });
+
+  describe('reorderCards', () => {
+    const mockCards = [
+      { id: '1', sort_order: 0, title: 'Card 1' },
+      { id: '2', sort_order: 1, title: 'Card 2' },
+      { id: '3', sort_order: 2, title: 'Card 3' },
+    ];
+
+    it('should move card up by swapping sort orders', async () => {
+      vi.mocked(apiClient.apiClient.update).mockResolvedValue({
+        data: {} as any,
+        error: null,
+        success: true,
+      });
+
+      const result = await ContentService.reorderCards(
+        'contact_cards',
+        '2',
+        'up',
+        mockCards
+      );
+
+      expect(result.success).toBe(true);
+      expect(apiClient.apiClient.update).toHaveBeenCalledTimes(2);
+      expect(apiClient.apiClient.update).toHaveBeenCalledWith('contact_cards', '2', {
+        sort_order: 0,
+      });
+      expect(apiClient.apiClient.update).toHaveBeenCalledWith('contact_cards', '1', {
+        sort_order: 1,
+      });
+    });
+
+    it('should move card down by swapping sort orders', async () => {
+      vi.mocked(apiClient.apiClient.update).mockResolvedValue({
+        data: {} as any,
+        error: null,
+        success: true,
+      });
+
+      const result = await ContentService.reorderCards(
+        'contact_cards',
+        '2',
+        'down',
+        mockCards
+      );
+
+      expect(result.success).toBe(true);
+      expect(apiClient.apiClient.update).toHaveBeenCalledTimes(2);
+      expect(apiClient.apiClient.update).toHaveBeenCalledWith('contact_cards', '2', {
+        sort_order: 2,
+      });
+      expect(apiClient.apiClient.update).toHaveBeenCalledWith('contact_cards', '3', {
+        sort_order: 1,
+      });
+    });
+
+    it('should reject moving first card up', async () => {
+      const result = await ContentService.reorderCards(
+        'contact_cards',
+        '1',
+        'up',
+        mockCards
+      );
+
+      expect(result.success).toBe(false);
+      expect(result.error?.code).toBe('ALREADY_FIRST');
+      expect(apiClient.apiClient.update).not.toHaveBeenCalled();
+    });
+
+    it('should reject moving last card down', async () => {
+      const result = await ContentService.reorderCards(
+        'contact_cards',
+        '3',
+        'down',
+        mockCards
+      );
+
+      expect(result.success).toBe(false);
+      expect(result.error?.code).toBe('ALREADY_LAST');
+      expect(apiClient.apiClient.update).not.toHaveBeenCalled();
+    });
+
+    it('should handle card not found', async () => {
+      const result = await ContentService.reorderCards(
+        'contact_cards',
+        '999',
+        'up',
+        mockCards
+      );
+
+      expect(result.success).toBe(false);
+      expect(result.error?.code).toBe('CARD_NOT_FOUND');
+      expect(apiClient.apiClient.update).not.toHaveBeenCalled();
+    });
+
+    it('should handle update errors', async () => {
+      const mockError = {
+        message: 'Update failed',
+        code: 'UPDATE_ERROR',
+      };
+
+      vi.mocked(apiClient.apiClient.update).mockResolvedValue({
+        data: null,
+        error: mockError,
+        success: false,
+      });
+
+      const result = await ContentService.reorderCards(
+        'contact_cards',
+        '2',
+        'up',
+        mockCards
+      );
+
+      expect(result.success).toBe(false);
+      expect(result.error).toBeDefined();
     });
   });
 });

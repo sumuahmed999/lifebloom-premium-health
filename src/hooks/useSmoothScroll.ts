@@ -34,6 +34,16 @@ export const useSmoothScroll = () => {
     const handleWheel = (e: WheelEvent) => {
       e.preventDefault();
 
+      // Sync with actual scroll position in case it was changed externally
+      // (e.g. by the scroll-to-top button)
+      if (!isScrolling) {
+        const actualScroll = window.pageYOffset;
+        if (Math.abs(actualScroll - targetScroll) > 10) {
+          currentScroll = actualScroll;
+          targetScroll = actualScroll;
+        }
+      }
+
       // Calculate new target position
       const delta = e.deltaY * SCROLL_SPEED;
       const maxScroll =
@@ -53,6 +63,14 @@ export const useSmoothScroll = () => {
       targetScroll = currentScroll;
     };
 
+    // Sync targetScroll whenever the page scrolls externally (programmatic scrolls)
+    const handleScroll = () => {
+      if (!isScrolling) {
+        currentScroll = window.pageYOffset;
+        targetScroll = window.pageYOffset;
+      }
+    };
+
     // Initialize current scroll position
     currentScroll = window.pageYOffset;
     targetScroll = currentScroll;
@@ -60,6 +78,7 @@ export const useSmoothScroll = () => {
     // Add event listeners
     document.addEventListener("wheel", handleWheel, { passive: false });
     window.addEventListener("resize", handleResize);
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
     // Handle anchor clicks for smooth navigation
     const handleAnchorClick = (e: Event) => {
@@ -86,6 +105,7 @@ export const useSmoothScroll = () => {
     return () => {
       document.removeEventListener("wheel", handleWheel);
       window.removeEventListener("resize", handleResize);
+      window.removeEventListener("scroll", handleScroll);
       document.removeEventListener("click", handleAnchorClick);
       if (requestId) {
         cancelAnimationFrame(requestId);

@@ -9,7 +9,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { ContentService, CONTENT_TABLES } from '@/lib/services/ContentService';
-import type { Service, Testimonial, BlogPost, VideoPost, ContactInfo } from '@/types/admin-content';
+import type { Service, Testimonial, BlogPost, VideoPost, ContactInfo, GetInTouchContent, ContactCard } from '@/types/admin-content';
 
 // ============================================================================
 // Types
@@ -23,7 +23,7 @@ export type ContentType = keyof typeof CONTENT_TABLES;
 /**
  * Union type for all content types
  */
-export type ContentItem = Service | Testimonial | BlogPost | VideoPost | ContactInfo;
+export type ContentItem = Service | Testimonial | BlogPost | VideoPost | ContactInfo | GetInTouchContent | ContactCard;
 
 /**
  * Return type for useContent hook

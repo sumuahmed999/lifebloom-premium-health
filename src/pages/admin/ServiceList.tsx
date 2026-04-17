@@ -281,7 +281,7 @@ export function ServiceList() {
 
       {/* Form Dialog */}
       <Dialog open={showForm} onOpenChange={setShowForm}>
-        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="w-[95vw] max-w-3xl max-h-[90vh] overflow-y-auto overflow-x-hidden">
           <DialogHeader>
             <DialogTitle>
               {editingService ? 'Edit Service' : 'Create Service'}
@@ -303,3 +303,4 @@ export function ServiceList() {
 }
 
 export default ServiceList;
+

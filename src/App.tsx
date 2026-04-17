@@ -15,6 +15,9 @@ const Index = lazy(() => import("./pages/Index"));
 const Login = lazy(() => import("./pages/Login"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const ServiceDetail = lazy(() => import("./pages/ServiceDetail"));
+const BlogPage = lazy(() => import("./pages/BlogPage"));
+const BlogDetailPage = lazy(() => import("./pages/BlogDetailPage"));
+const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 
 // Lazy load admin pages
 const Dashboard = lazy(() => import("./pages/admin/Dashboard"));
@@ -24,6 +27,7 @@ const Testimonials = lazy(() => import("./pages/admin/Testimonials"));
 const Blogs = lazy(() => import("./pages/admin/Blogs"));
 const Videos = lazy(() => import("./pages/admin/Videos"));
 const Contact = lazy(() => import("./pages/admin/Contact"));
+const ContactCardManager = lazy(() => import("./pages/admin/ContactCardManager"));
 
 const queryClient = new QueryClient();
 
@@ -42,9 +46,12 @@ const App = () => {
               {/* Public Routes */}
               <Route path="/" element={<Index />} />
               <Route path="/services/:id" element={<ServiceDetail />} />
+              <Route path="/blog" element={<BlogPage />} />
+              <Route path="/blog/:id" element={<BlogDetailPage />} />
               
               {/* Admin Login Route */}
               <Route path="/admin/login" element={<Login />} />
+              <Route path="/admin/reset-password" element={<ResetPassword />} />
               
               {/* Protected Admin Routes */}
               <Route
@@ -62,6 +69,7 @@ const App = () => {
                 <Route path="testimonials" element={<Testimonials />} />
                 <Route path="blogs" element={<Blogs />} />
                 <Route path="videos" element={<Videos />} />
+                <Route path="contact-cards" element={<ContactCardManager />} />
                 <Route path="contact" element={<Contact />} />
                 <Route path="enquiries" element={<Enquiries />} />
               </Route>

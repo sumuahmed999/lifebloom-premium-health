@@ -75,7 +75,8 @@ export function Dashboard() {
       icon: Briefcase,
       path: '/admin/services',
       color: 'text-blue-600',
-      bgColor: 'bg-blue-50',
+      bgColor: 'bg-blue-100',
+      cardBg: 'bg-gradient-to-br from-blue-50 to-white border-blue-100',
       stats: stats?.services,
     },
     {
@@ -83,8 +84,9 @@ export function Dashboard() {
       description: 'Manage customer testimonials',
       icon: MessageSquare,
       path: '/admin/testimonials',
-      color: 'text-green-600',
-      bgColor: 'bg-green-50',
+      color: 'text-emerald-600',
+      bgColor: 'bg-emerald-100',
+      cardBg: 'bg-gradient-to-br from-emerald-50 to-white border-emerald-100',
       stats: stats?.testimonials,
     },
     {
@@ -92,26 +94,19 @@ export function Dashboard() {
       description: 'Manage blog articles',
       icon: FileText,
       path: '/admin/blogs',
-      color: 'text-purple-600',
-      bgColor: 'bg-purple-50',
+      color: 'text-violet-600',
+      bgColor: 'bg-violet-100',
+      cardBg: 'bg-gradient-to-br from-violet-50 to-white border-violet-100',
       stats: stats?.blogs,
-    },
-    {
-      title: 'Videos',
-      description: 'Manage video content',
-      icon: Video,
-      path: '/admin/videos',
-      color: 'text-red-600',
-      bgColor: 'bg-red-50',
-      stats: stats?.videos,
     },
     {
       title: 'Contact Info',
       description: 'Update contact information',
       icon: Phone,
       path: '/admin/contact',
-      color: 'text-orange-600',
-      bgColor: 'bg-orange-50',
+      color: 'text-amber-600',
+      bgColor: 'bg-amber-100',
+      cardBg: 'bg-gradient-to-br from-amber-50 to-white border-amber-100',
       stats: undefined,
     },
   ];
@@ -133,7 +128,7 @@ export function Dashboard() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
+        <h1 className="text-3xl font-bold tracking-tight text-slate-800">Dashboard</h1>
         <p className="text-muted-foreground">
           Welcome to the admin panel. Manage your website content from here.
         </p>
@@ -141,58 +136,27 @@ export function Dashboard() {
 
       {/* Quick Stats */}
       {stats && (
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Services</CardTitle>
-              <Briefcase className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{stats.services.total}</div>
-              <p className="text-xs text-muted-foreground">
-                {stats.services.published} published, {stats.services.draft} draft
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Testimonials</CardTitle>
-              <MessageSquare className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{stats.testimonials.total}</div>
-              <p className="text-xs text-muted-foreground">
-                {stats.testimonials.published} published, {stats.testimonials.draft} draft
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Blog Posts</CardTitle>
-              <FileText className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{stats.blogs.total}</div>
-              <p className="text-xs text-muted-foreground">
-                {stats.blogs.published} published, {stats.blogs.draft} draft
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Videos</CardTitle>
-              <Video className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{stats.videos.total}</div>
-              <p className="text-xs text-muted-foreground">
-                {stats.videos.published} published, {stats.videos.draft} draft
-              </p>
-            </CardContent>
-          </Card>
+        <div className="grid gap-4 grid-cols-2 lg:grid-cols-3">
+          {[
+            { label: 'Total Services', icon: Briefcase, total: stats.services.total, published: stats.services.published, draft: stats.services.draft },
+            { label: 'Total Testimonials', icon: MessageSquare, total: stats.testimonials.total, published: stats.testimonials.published, draft: stats.testimonials.draft },
+            { label: 'Total Blog Posts', icon: FileText, total: stats.blogs.total, published: stats.blogs.published, draft: stats.blogs.draft },
+          ].map(({ label, icon: Icon, total, published, draft }) => (
+            <Card key={label} className="border-0 text-white" style={{ background: 'linear-gradient(135deg, #235f90, #1a4a72)' }}>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium" style={{ color: 'rgba(255,255,255,0.8)' }}>{label}</CardTitle>
+                <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.2)' }}>
+                  <Icon className="h-4 w-4 text-white" />
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold text-white">{total}</div>
+                <p className="text-xs mt-1" style={{ color: 'rgba(255,255,255,0.65)' }}>
+                  {published} published, {draft} draft
+                </p>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       )}
 
@@ -201,15 +165,15 @@ export function Dashboard() {
         {contentSections.map((section) => {
           const Icon = section.icon;
           return (
-            <Card key={section.path} className="hover:shadow-lg transition-shadow">
+            <Card key={section.path} className={`hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5 ${section.cardBg}`}>
               <CardHeader>
-                <div className={`w-12 h-12 rounded-lg ${section.bgColor} flex items-center justify-center mb-2`}>
+                <div className={`w-12 h-12 rounded-xl ${section.bgColor} flex items-center justify-center mb-2`}>
                   <Icon className={`h-6 w-6 ${section.color}`} />
                 </div>
-                <CardTitle>{section.title}</CardTitle>
+                <CardTitle className="text-slate-800">{section.title}</CardTitle>
                 <CardDescription>{section.description}</CardDescription>
                 {section.stats && (
-                  <div className="pt-2 text-sm text-muted-foreground">
+                  <div className="pt-1 text-sm font-medium text-slate-500">
                     {section.stats.total} total items
                   </div>
                 )}
@@ -217,7 +181,7 @@ export function Dashboard() {
               <CardContent>
                 <Button
                   variant="outline"
-                  className="w-full"
+                  className="w-full bg-white/70 hover:bg-white"
                   onClick={() => navigate(section.path)}
                 >
                   <Plus className="mr-2 h-4 w-4" />
@@ -244,18 +208,16 @@ export function Dashboard() {
           <CardContent>
             <div className="space-y-4">
               {recentItems.map((item, index) => (
-                <div key={index} className="flex items-center justify-between border-b pb-3 last:border-0">
-                  <div className="flex items-center gap-3">
-                    <div className="flex items-center gap-2">
-                      {item.type === 'services' && <Briefcase className="h-4 w-4 text-blue-600" />}
-                      {item.type === 'testimonials' && <MessageSquare className="h-4 w-4 text-green-600" />}
-                      {item.type === 'blogs' && <FileText className="h-4 w-4 text-purple-600" />}
-                      {item.type === 'videos' && <Video className="h-4 w-4 text-red-600" />}
-                      <span className="text-sm font-medium capitalize">{item.type}</span>
-                    </div>
-                    <span className="text-sm">{getContentTitle(item.item)}</span>
+                <div key={index} className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 border-b pb-3 last:border-0">
+                  <div className="flex items-center gap-2 min-w-0">
+                    {item.type === 'services' && <Briefcase className="h-4 w-4 text-blue-600 shrink-0" />}
+                    {item.type === 'testimonials' && <MessageSquare className="h-4 w-4 text-green-600 shrink-0" />}
+                    {item.type === 'blogs' && <FileText className="h-4 w-4 text-purple-600 shrink-0" />}
+                    {item.type === 'videos' && <Video className="h-4 w-4 text-red-600 shrink-0" />}
+                    <span className="text-xs font-semibold capitalize text-muted-foreground shrink-0">{item.type}</span>
+                    <span className="text-sm truncate">{getContentTitle(item.item)}</span>
                   </div>
-                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <div className="flex items-center gap-1 text-xs text-muted-foreground pl-6 sm:pl-0 shrink-0">
                     <Clock className="h-3 w-3" />
                     {formatDate(item.item.created_at)}
                   </div>
@@ -276,3 +238,4 @@ export function Dashboard() {
 }
 
 export default Dashboard;
+

@@ -202,12 +202,16 @@ export class PerformanceMonitor {
     
     // Log warning if exceeds "good" threshold
     if (value > threshold.good) {
-      const rating = value > threshold.needsImprovement ? 'poor' : 'needs-improvement';
-      console.warn(
-        `Performance Warning: ${metric.toUpperCase()} = ${value.toFixed(2)}ms (${rating})`,
-        `Threshold: ${threshold.good}ms`
-      );
+  const rating =
+    value > threshold.needsImprovement ? 'poor' : 'needs-improvement';
+
+  console.warn(
+    `[Performance] ${metric.toUpperCase()}: ${value.toFixed(2)}ms (${rating})`,
+    {
+      threshold: `${threshold.good}ms`
     }
+  );
+}
 
     // Trigger registered callbacks
     this.thresholdCallbacks

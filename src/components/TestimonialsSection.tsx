@@ -54,72 +54,72 @@ const TestimonialsSection = () => {
   };
 
   return (
-    <section className="py-24 relative overflow-hidden">
+    <section className="py-24 relative overflow-hidden bg-slate-50">
       {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-secondary/10"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-white via-slate-50 to-white"></div>
 
       <div className="container mx-auto px-4 relative z-10">
         {/* Section Header */}
-        <div className="text-center space-y-6 mb-16 stagger-animate animate-on-scroll">
-          <div className="inline-flex items-center space-x-2 bg-secondary/20 backdrop-blur-sm px-4 py-2 rounded-full border border-secondary/30">
-            <Quote className="w-5 h-5 text-secondary" />
-            <span className="text-sm font-medium text-secondary">
+        <div className="text-center space-y-4 mb-20 stagger-animate animate-on-scroll">
+          <div className="inline-flex items-center space-x-2 bg-primary/10 px-4 py-2 rounded-md">
+            <Quote className="w-4 h-4 text-primary" />
+            <span className="text-sm font-semibold text-primary uppercase tracking-wide">
               Patient Testimonials
             </span>
           </div>
-          <h2 className="text-4xl lg:text-5xl font-display font-bold text-primary leading-tight">
+          <h2 className="text-4xl lg:text-5xl font-bold leading-tight" style={{ color: 'hsl(207 61% 35%)' }}>
             What Our Patients Say
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
             Don't just take our word for it. Hear from thousands of satisfied
             patients who have experienced the LifeBloom difference.
           </p>
         </div>
 
         {/* Testimonial Carousel */}
-        <div className="relative max-w-4xl mx-auto stagger-animate animate-on-scroll stagger-2">
+        <div className="relative max-w-5xl mx-auto stagger-animate animate-on-scroll stagger-2">
           {loading ? (
-            <div className="glass-card p-8 lg:p-12 text-center animate-pulse">
-              <div className="h-8 bg-muted rounded w-3/4 mx-auto mb-6"></div>
-              <div className="h-6 bg-muted rounded w-full mb-4"></div>
-              <div className="h-6 bg-muted rounded w-5/6 mx-auto"></div>
+            <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-12 text-center animate-pulse">
+              <div className="h-8 bg-slate-200 rounded w-3/4 mx-auto mb-6"></div>
+              <div className="h-6 bg-slate-200 rounded w-full mb-4"></div>
+              <div className="h-6 bg-slate-200 rounded w-5/6 mx-auto"></div>
             </div>
           ) : testimonials.length > 0 ? (
             <>
               {/* Main Testimonial */}
-              <div className="glass-card p-8 lg:p-12 text-center hover-lift">
-                <div className="mb-8">
-                  <Quote className="w-12 h-12 text-secondary/30 mx-auto mb-6" />
-                  <p className="text-xl lg:text-2xl text-foreground leading-relaxed font-medium mb-8">
+              <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-12 lg:p-16 transition-all duration-300 hover:shadow-xl">
+                <div className="mb-10">
+                  <Quote className="w-16 h-16 text-primary/20 mx-auto mb-8" />
+                  <p className="text-xl lg:text-2xl text-slate-700 leading-relaxed font-normal mb-10 italic">
                     "{testimonials[currentIndex].testimonial_text}"
                   </p>
 
                   {/* Rating */}
-                  <div className="flex justify-center space-x-1 mb-6">
+                  <div className="flex justify-center space-x-1 mb-8">
                     {[...Array(testimonials[currentIndex].rating)].map((_, i) => (
                       <Star
                         key={i}
-                        className="w-5 h-5 fill-yellow-400 text-yellow-400"
+                        className="w-5 h-5 fill-amber-400 text-amber-400"
                       />
                     ))}
                   </div>
                 </div>
 
                 {/* Patient Info */}
-                <div className="flex items-center justify-center space-x-4">
+                <div className="flex items-center justify-center space-x-4 pt-8 border-t border-slate-200">
                   {testimonials[currentIndex].image_url && (
                     <img
                       src={testimonials[currentIndex].image_url}
                       alt={testimonials[currentIndex].customer_name}
-                      className="w-16 h-16 rounded-full object-cover ring-4 ring-secondary/20"
+                      className="w-14 h-14 rounded-full object-cover ring-2 ring-slate-200"
                     />
                   )}
                   <div className="text-left">
-                    <h4 className="text-lg font-semibold text-primary">
+                    <h4 className="text-lg font-semibold text-slate-900">
                       {testimonials[currentIndex].customer_name}
                     </h4>
                     {testimonials[currentIndex].customer_role && (
-                      <p className="text-muted-foreground">
+                      <p className="text-sm text-slate-500">
                         {testimonials[currentIndex].customer_role}
                       </p>
                     )}
@@ -133,29 +133,29 @@ const TestimonialsSection = () => {
                   <Button
                     variant="outline"
                     size="icon"
-                    className="absolute left-4 top-1/2 -translate-y-1/2 glass-card hover:bg-primary hover:text-white"
+                    className="absolute -left-6 top-1/2 -translate-y-1/2 bg-white shadow-md border-slate-200 hover:bg-slate-50 hover:border-primary transition-all"
                     onClick={prevTestimonial}
                   >
-                    <ChevronLeft className="w-5 h-5" />
+                    <ChevronLeft className="w-5 h-5 text-slate-700" />
                   </Button>
                   <Button
                     variant="outline"
                     size="icon"
-                    className="absolute right-4 top-1/2 -translate-y-1/2 glass-card hover:bg-primary hover:text-white"
+                    className="absolute -right-6 top-1/2 -translate-y-1/2 bg-white shadow-md border-slate-200 hover:bg-slate-50 hover:border-primary transition-all"
                     onClick={nextTestimonial}
                   >
-                    <ChevronRight className="w-5 h-5" />
+                    <ChevronRight className="w-5 h-5 text-slate-700" />
                   </Button>
 
                   {/* Dots Indicator */}
-                  <div className="flex justify-center space-x-2 mt-8">
+                  <div className="flex justify-center space-x-2 mt-10">
                     {testimonials.map((_, index) => (
                       <button
                         key={index}
-                        className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                        className={`h-2 rounded-full transition-all duration-300 ${
                           index === currentIndex
                             ? "bg-primary w-8"
-                            : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
+                            : "bg-slate-300 w-2 hover:bg-slate-400"
                         }`}
                         onClick={() => setCurrentIndex(index)}
                       />
@@ -165,40 +165,36 @@ const TestimonialsSection = () => {
               )}
             </>
           ) : (
-            <div className="glass-card p-8 lg:p-12 text-center">
-              <p className="text-muted-foreground">No testimonials available</p>
+            <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-12 text-center">
+              <p className="text-slate-500">No testimonials available</p>
             </div>
           )}
         </div>
 
         {/* Trust Indicators */}
-        <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 text-center stagger-animate animate-on-scroll stagger-3">
-          <div className="space-y-2">
-            <div className="text-3xl font-bold gradient-text">4.9/5</div>
-            <div className="text-sm text-muted-foreground">Average Rating</div>
+        <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 text-center stagger-animate animate-on-scroll stagger-3">
+          <div className="space-y-2 p-6 bg-white rounded-xl border border-slate-200">
+            <div className="text-4xl font-bold text-primary">4.9/5</div>
+            <div className="text-sm text-slate-600 font-medium">Average Rating</div>
           </div>
-          <div className="space-y-2">
-            <div className="text-3xl font-bold gradient-text">500+</div>
-            <div className="text-sm text-muted-foreground">Happy Patients</div>
+          <div className="space-y-2 p-6 bg-white rounded-xl border border-slate-200">
+            <div className="text-4xl font-bold text-primary">500+</div>
+            <div className="text-sm text-slate-600 font-medium">Happy Patients</div>
           </div>
-          <div className="space-y-2">
-            <div className="text-3xl font-bold gradient-text">99%</div>
-            <div className="text-sm text-muted-foreground">
+          <div className="space-y-2 p-6 bg-white rounded-xl border border-slate-200">
+            <div className="text-4xl font-bold text-primary">99%</div>
+            <div className="text-sm text-slate-600 font-medium">
               Satisfaction Rate
             </div>
           </div>
-          <div className="space-y-2">
-            <div className="text-3xl font-bold gradient-text">2+</div>
-            <div className="text-sm text-muted-foreground">
+          <div className="space-y-2 p-6 bg-white rounded-xl border border-slate-200">
+            <div className="text-4xl font-bold text-primary">2+</div>
+            <div className="text-sm text-slate-600 font-medium">
               Years of Service
             </div>
           </div>
         </div>
       </div>
-
-      {/* Decorative Elements */}
-      <div className="absolute top-20 right-20 w-40 h-40 bg-secondary/5 rounded-full blur-3xl animate-pulse"></div>
-      <div className="absolute bottom-20 left-20 w-32 h-32 bg-primary/5 rounded-full blur-2xl animate-pulse delay-1000"></div>
     </section>
   );
 };

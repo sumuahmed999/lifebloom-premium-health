@@ -302,7 +302,7 @@ export function TestimonialList() {
 
       {/* Form Dialog */}
       <Dialog open={showForm} onOpenChange={setShowForm}>
-        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="w-[95vw] max-w-3xl max-h-[90vh] overflow-y-auto overflow-x-hidden">
           <DialogHeader>
             <DialogTitle>
               {editingTestimonial ? 'Edit Testimonial' : 'Create Testimonial'}
@@ -324,3 +324,4 @@ export function TestimonialList() {
 }
 
 export default TestimonialList;
+

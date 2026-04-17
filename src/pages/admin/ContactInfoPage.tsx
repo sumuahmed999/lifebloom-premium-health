@@ -211,7 +211,7 @@ export function ContactInfoPage() {
 
       {/* Form Dialog */}
       <Dialog open={showForm} onOpenChange={setShowForm}>
-        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="w-[95vw] max-w-3xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>
               {contactInfo ? 'Edit Contact Information' : 'Add Contact Information'}
@@ -230,3 +230,4 @@ export function ContactInfoPage() {
 }
 
 export default ContactInfoPage;
+

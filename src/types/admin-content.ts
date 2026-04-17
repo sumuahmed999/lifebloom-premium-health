@@ -95,6 +95,10 @@ export interface ContactInfo {
   secondary_phone?: string;
   email: string;
   operating_hours: OperatingHours;
+  section_heading?: string;
+  section_subtitle?: string;
+  content_title?: string;
+  content_description?: string;
   updated_at: string;
   updated_by: string | null;
 }
@@ -138,6 +142,7 @@ export interface ValidationResult {
  */
 export interface QueryFilters {
   published?: boolean;
+  status?: boolean;
   category?: string;
   search?: string;
   limit?: number;
@@ -152,7 +157,7 @@ export type BulkAction = 'publish' | 'unpublish' | 'delete';
 /**
  * ContentType - Available content types
  */
-export type ContentType = 'services' | 'testimonials' | 'blogs' | 'videos' | 'contact';
+export type ContentType = 'services' | 'testimonials' | 'blogs' | 'videos' | 'contact' | 'get_in_touch' | 'contact_cards';
 
 /**
  * Enquiry - Contact form submission
@@ -171,3 +176,107 @@ export interface Enquiry {
   resolved_at?: string | null;
   notes?: string | null;
 }
+
+/**
+ * GetInTouchContent - Editable content for Get in Touch section
+ */
+export interface GetInTouchContent {
+  id: string;
+  badge_text: string;
+  heading: string;
+  description: string;
+  intro_heading: string;
+  intro_description: string;
+  call_card_title: string;
+  call_card_description: string;
+  call_card_button_text: string;
+  email_card_title: string;
+  email_card_description: string;
+  email_card_button_text: string;
+  visit_card_title: string;
+  visit_card_description: string;
+  visit_card_button_text: string;
+  hours_card_title: string;
+  hours_card_description: string;
+  updated_at: string;
+  updated_by: string | null;
+}
+
+/**
+ * ContactCard - Contact information card with rich content
+ */
+export interface ContactCard {
+  id: string;
+  icon: string;
+  title: string;
+  short_description: string;
+  detailed_content: string;
+  cta_button_text: string;
+  cta_link: string;
+  color_theme: 'primary-blue' | 'secondary-green' | 'accent-teal' | 'neutral-gray';
+  status: boolean;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+}
+
+/**
+ * ContactCardFormData - Form data for creating/editing contact cards
+ */
+export type ContactCardFormData = Omit<ContactCard, 'id' | 'created_at' | 'updated_at'>;
+
+/**
+ * ContactCardUpdate - Partial update data for contact cards
+ */
+export type ContactCardUpdate = Partial<ContactCardFormData>;
+
+/**
+ * ContactCardValidationErrors - Form validation errors for contact cards
+ */
+export interface ContactCardValidationErrors {
+  title?: string;
+  short_description?: string;
+  detailed_content?: string;
+  cta_link?: string;
+  icon?: string;
+  color_theme?: string;
+}
+
+/**
+ * ContactCardValidationResult - Validation result for contact cards
+ */
+export interface ContactCardValidationResult {
+  valid: boolean;
+  errors: ContactCardValidationErrors;
+}
+
+/**
+ * ColorTheme - Color theme configuration for contact cards
+ */
+export interface ColorTheme {
+  card: {
+    background: string;
+    border: string;
+    shadow: string;
+  };
+  icon: {
+    background: string;
+    color: string;
+  };
+  text: {
+    title: string;
+    description: string;
+  };
+  button: {
+    background: string;
+    text: string;
+    ring: string;
+  };
+}
+
+/**
+ * ColorThemeConfig - Map of theme names to ColorTheme configurations
+ */
+export type ColorThemeConfig = {
+  [K in ContactCard['color_theme']]: ColorTheme;
+};
